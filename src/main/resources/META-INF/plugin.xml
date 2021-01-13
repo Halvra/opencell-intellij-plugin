@@ -1,19 +1,42 @@
 <idea-plugin>
-    <id>com.github.halvra.intellijopencellplugin</id>
-    <name>intellij-opencell-plugin</name>
-    <vendor>halvra</vendor>
+    <id>com.github.halvra.opencell</id>
+    <name>Opencell</name>
+    <vendor>Halvra</vendor>
 
     <!-- Product and plugin compatibility requirements -->
     <!-- https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.halvra.intellijopencellplugin.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.halvra.intellijopencellplugin.services.MyProjectService"/>
+        <projectService serviceImplementation="com.github.halvra.opencell.settings.ProjectSettingsState"/>
+        <projectService serviceImplementation="com.github.halvra.opencell.services.ProjectService"/>
+        <projectConfigurable parentId="tools" instance="com.github.halvra.opencell.settings.ProjectSettingsConfigurable"
+                             id="OpencellSettings"
+                             displayName="Opencell Plugin"/>
+        <fileDocumentManagerListener implementation="com.github.halvra.opencell.listeners.UploadToEnvironmentListener"/>
     </extensions>
 
     <applicationListeners>
-        <listener class="com.github.halvra.intellijopencellplugin.listeners.MyProjectManagerListener"
+        <listener class="com.github.halvra.opencell.listeners.ProjectManagerListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
+    <actions>
+        <action id="com.github.halvra.opencell.actions.EscapeAndCopyAction"
+                class="com.github.halvra.opencell.actions.EscapeAndCopyAction" text="Escape and Copy"
+                description="Escape this file and copy it to clipboard"
+                icon="Icons.OPENCELL">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="CutCopyPasteGroup"/>
+        </action>
+
+        <group id="ToolbarOpencellGroup">
+            <separator/>
+            <action id="com.github.halvra.opencell.actions.DeployEnvironmentComboBoxAction"
+                    class="com.github.halvra.opencell.actions.DeployEnvironmentComboBoxAction"
+                    text="Auto Deploy to Opencell"
+                    description="Auto deploy to selected Opencell environment">
+                <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
+            </action>
+            <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
+        </group>
+    </actions>
 </idea-plugin>
