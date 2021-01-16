@@ -6,6 +6,7 @@
     <!-- Product and plugin compatibility requirements -->
     <!-- https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.java</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <projectService serviceImplementation="com.github.halvra.opencell.settings.ProjectSettingsState"/>
@@ -14,6 +15,7 @@
                              id="OpencellSettings"
                              displayName="Opencell Plugin"/>
         <fileDocumentManagerListener implementation="com.github.halvra.opencell.listeners.UploadToEnvironmentListener"/>
+        <notificationGroup id="Opencell Notification Group" displayType="BALLOON"/>
     </extensions>
 
     <applicationListeners>
@@ -32,9 +34,13 @@
             <separator/>
             <action id="com.github.halvra.opencell.actions.DeployEnvironmentComboBoxAction"
                     class="com.github.halvra.opencell.actions.DeployEnvironmentComboBoxAction"
-                    text="Auto Deploy to Opencell"
+                    text="Select Opencell Environment"
+                    description="Select an Opencell environment">
+            </action>
+            <action id="com.github.halvra.opencell.actions.AutoDeployAction"
+                    class="com.github.halvra.opencell.actions.AutoDeployAction"
+                    text="Auto Deploy"
                     description="Auto deploy to selected Opencell environment">
-                <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
             </action>
             <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
         </group>

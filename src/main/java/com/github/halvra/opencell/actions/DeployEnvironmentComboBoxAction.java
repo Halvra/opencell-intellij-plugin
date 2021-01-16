@@ -4,12 +4,9 @@ import com.github.halvra.opencell.settings.ProjectSettingsConfigurable;
 import com.github.halvra.opencell.settings.ProjectSettingsState;
 import com.github.halvra.opencell.settings.model.Environment;
 import com.intellij.execution.ExecutionBundle;
-import com.intellij.execution.RunManager;
-import com.intellij.execution.RunnerAndConfigurationSettings;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.*;
-import com.intellij.openapi.actionSystem.ex.ActionUtil;
 import com.intellij.openapi.actionSystem.ex.ComboBoxAction;
 import com.intellij.openapi.options.ShowSettingsUtil;
 import com.intellij.openapi.project.DumbAware;
@@ -48,7 +45,7 @@ public class DeployEnvironmentComboBoxAction extends ComboBoxAction implements D
                 updatePresentation(null, null, presentation);
                 presentation.setEnabled(false);
             } else {
-                updatePresentation(settings.getEnvironments().stream().findFirst().orElse(null), project, presentation);
+                updatePresentation(settings.getPreferredEnvironment(), project, presentation);
                 presentation.setEnabled(true);
             }
         } catch (IndexNotReadyException e1) {
@@ -103,7 +100,7 @@ public class DeployEnvironmentComboBoxAction extends ComboBoxAction implements D
             protected void fireActionPerformed(ActionEvent event) {
                 DataContext context = DataManager.getInstance().getDataContext(this);
                 final Project project = CommonDataKeys.PROJECT.getData(context);
-                if (project != null && !ActionUtil.isDumbMode(project)) {
+                if (Boolean.TRUE.equals(presentation.getClientProperty(BUTTON_MODE))) {
                     ShowSettingsUtil.getInstance().showSettingsDialog(project, ProjectSettingsConfigurable.class);
                     return;
                 }
@@ -162,7 +159,9 @@ public class DeployEnvironmentComboBoxAction extends ComboBoxAction implements D
 
         @Override
         public void actionPerformed(@NotNull AnActionEvent e) {
-            // TODO: save selected env
+            ProjectSettingsState settings = ProjectSettingsState.getInstance(project);
+            settings.setPreferredEnvironment(environment);
+
             updatePresentation(environment,
                     project,
                     e.getPresentation());

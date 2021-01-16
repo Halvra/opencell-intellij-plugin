@@ -45,6 +45,14 @@ public class ProjectSettingsState implements PersistentStateComponent<ProjectSet
         return environments;
     }
 
+    public void setPreferredEnvironment(Environment environment) {
+        environments.forEach(env -> env.setPreferred(env.equals(environment)));
+    }
+
+    public Environment getPreferredEnvironment() {
+        return environments.isEmpty() ? null : environments.stream().filter(Environment::isPreferred).findFirst().orElse(environments.get(0));
+    }
+
     public void setEnvironments(List<Environment> environments) {
         this.environments = environments;
     }
