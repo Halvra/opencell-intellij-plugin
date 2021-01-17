@@ -1,5 +1,6 @@
 package com.github.halvra.opencell.settings;
 
+import com.github.halvra.opencell.OpencellBundle;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nls;
@@ -18,7 +19,7 @@ public class ProjectSettingsConfigurable implements Configurable {
 
     @Nls(capitalization = Nls.Capitalization.Title)
     public String getDisplayName() {
-        return "Opencell Plugin";
+        return OpencellBundle.message("plugin.name");
     }
 
     @Override

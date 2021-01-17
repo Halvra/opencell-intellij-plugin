@@ -1,12 +1,12 @@
 package com.github.halvra.opencell.dto;
 
-public class ScriptInstance {
+public class ScriptInstanceDto {
     String code;
     String description;
     String type;
     String script;
 
-    public ScriptInstance() {
+    public ScriptInstanceDto() {
         this.type = "JAVA";
     }
 

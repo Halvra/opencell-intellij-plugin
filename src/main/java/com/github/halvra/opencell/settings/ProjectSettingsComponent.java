@@ -1,5 +1,6 @@
 package com.github.halvra.opencell.settings;
 
+import com.github.halvra.opencell.OpencellBundle;
 import com.github.halvra.opencell.settings.model.Environment;
 import com.intellij.openapi.actionSystem.ActionToolbarPosition;
 import com.intellij.ui.BooleanTableCellRenderer;
@@ -25,7 +26,7 @@ public class ProjectSettingsComponent {
     public ProjectSettingsComponent() {
         this.environmentTable = initEnvironmentTable();
         this.mainPanel = FormBuilder.createFormBuilder()
-                .addLabeledComponent("Environments", ToolbarDecorator.createDecorator(environmentTable).setToolbarPosition(ActionToolbarPosition.LEFT).setAddAction(action -> {
+                .addLabeledComponent(OpencellBundle.message("settings.environment"), ToolbarDecorator.createDecorator(environmentTable).setToolbarPosition(ActionToolbarPosition.LEFT).setAddAction(action -> {
                     EnvironmentDialogWrapper dialog = new EnvironmentDialogWrapper();
                     if (dialog.showAndGet()) {
                         environmentTable.getListTableModel().addRow(dialog.getEnvironment());
@@ -54,7 +55,7 @@ public class ProjectSettingsComponent {
     }
 
     private ColumnInfo[] buildEnvironmentColumnInfo() {
-        return new ColumnInfo[]{new ColumnInfo<Environment, String>("Name") {
+        return new ColumnInfo[]{new ColumnInfo<Environment, String>(OpencellBundle.message("settings.environment.name")) {
             @Nullable
             @Override
             public String valueOf(Environment e) {
@@ -65,7 +66,7 @@ public class ProjectSettingsComponent {
             public void setValue(Environment environment, String value) {
                 environment.setName(value);
             }
-        }, new ColumnInfo<Environment, String>("URL") {
+        }, new ColumnInfo<Environment, String>(OpencellBundle.message("settings.environment.url")) {
             @Nullable
             @Override
             public String valueOf(Environment e) {
@@ -76,7 +77,7 @@ public class ProjectSettingsComponent {
             public void setValue(Environment environment, String value) {
                 environment.setUrl(value);
             }
-        }, new ColumnInfo<Environment, Boolean>("Preferred") {
+        }, new ColumnInfo<Environment, Boolean>(OpencellBundle.message("settings.environment.preferred")) {
             @Override
             public Boolean valueOf(Environment e) {
                 return e.isPreferred();

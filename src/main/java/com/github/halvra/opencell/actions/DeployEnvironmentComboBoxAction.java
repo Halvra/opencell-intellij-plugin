@@ -1,9 +1,9 @@
 package com.github.halvra.opencell.actions;
 
+import com.github.halvra.opencell.OpencellBundle;
 import com.github.halvra.opencell.settings.ProjectSettingsConfigurable;
 import com.github.halvra.opencell.settings.ProjectSettingsState;
 import com.github.halvra.opencell.settings.model.Environment;
-import com.intellij.execution.ExecutionBundle;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.*;
@@ -31,8 +31,6 @@ public class DeployEnvironmentComboBoxAction extends ComboBoxAction implements D
 
     public static final Icon CHECKED_ICON = JBUIScale.scaleIcon(new SizedIcon(AllIcons.Actions.Checked, 16, 16));
     public static final Icon CHECKED_SELECTED_ICON = JBUIScale.scaleIcon(new SizedIcon(AllIcons.Actions.Checked_selected, 16, 16));
-
-    private ComboBoxButton myButton;
 
     @Override
     public void update(@NotNull AnActionEvent e) {
@@ -62,13 +60,8 @@ public class DeployEnvironmentComboBoxAction extends ComboBoxAction implements D
             presentation.setText(environment.getName());
         } else {
             presentation.putClientProperty(BUTTON_MODE, Boolean.TRUE);
-            presentation.setText("Add Environment...");
+            presentation.setText(OpencellBundle.message("toolbar.environment.add"));
         }
-    }
-
-    @Override
-    public void actionPerformed(@NotNull AnActionEvent e) {
-        System.out.println("tototutu");
     }
 
     @Override
@@ -79,7 +72,7 @@ public class DeployEnvironmentComboBoxAction extends ComboBoxAction implements D
     @NotNull
     @Override
     public JComponent createCustomComponent(@NotNull final Presentation presentation, @NotNull String place) {
-        myButton = new ComboBoxButton(presentation) {
+        ComboBoxButton myButton = new ComboBoxButton(presentation) {
             @Override
             public Dimension getPreferredSize() {
                 Dimension d = super.getPreferredSize();
@@ -133,9 +126,7 @@ public class DeployEnvironmentComboBoxAction extends ComboBoxAction implements D
         final ProjectSettingsState settings = ProjectSettingsState.getInstance(project);
 
         allActionsGroup.addSeparator();
-        settings.getEnvironments().forEach(environment -> {
-            allActionsGroup.add(new SelectEnvironmentAction(project, environment, environment.isPreferred()));
-        });
+        settings.getEnvironments().forEach(environment -> allActionsGroup.add(new SelectEnvironmentAction(project, environment, environment.isPreferred())));
 
         return allActionsGroup;
     }
@@ -151,7 +142,7 @@ public class DeployEnvironmentComboBoxAction extends ComboBoxAction implements D
             String name = environment.getName();
             Presentation presentation = getTemplatePresentation();
             presentation.setText(name, false);
-            presentation.setDescription(ExecutionBundle.message("select.0", name));
+            presentation.setDescription(OpencellBundle.message("select.0", name));
 
             presentation.setIcon(selected ? CHECKED_ICON : Icons.OPENCELL);
             presentation.setSelectedIcon(selected ? CHECKED_SELECTED_ICON : Icons.OPENCELL);

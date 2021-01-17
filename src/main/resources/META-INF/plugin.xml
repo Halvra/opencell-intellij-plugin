@@ -10,25 +10,24 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <projectService serviceImplementation="com.github.halvra.opencell.settings.ProjectSettingsState"/>
-        <projectService serviceImplementation="com.github.halvra.opencell.services.ProjectService"/>
         <projectConfigurable parentId="tools" instance="com.github.halvra.opencell.settings.ProjectSettingsConfigurable"
                              id="OpencellSettings"
                              displayName="Opencell Plugin"/>
-        <fileDocumentManagerListener implementation="com.github.halvra.opencell.listeners.UploadToEnvironmentListener"/>
+        <projectService serviceImplementation="com.github.halvra.opencell.listeners.UploadToEnvironmentListener"/>
         <notificationGroup id="Opencell Notification Group" displayType="BALLOON"/>
     </extensions>
 
-    <applicationListeners>
-        <listener class="com.github.halvra.opencell.listeners.ProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
     <actions>
-        <action id="com.github.halvra.opencell.actions.EscapeAndCopyAction"
-                class="com.github.halvra.opencell.actions.EscapeAndCopyAction" text="Escape and Copy"
-                description="Escape this file and copy it to clipboard"
-                icon="Icons.OPENCELL">
+        <group id="ProjectViewMenuOpencellGroup">
+            <separator/>
+            <action id="com.github.halvra.opencell.actions.GenerateScriptBodyAction"
+                    class="com.github.halvra.opencell.actions.GenerateScriptBodyAction" text="Generate Script Body for Postman"
+                    description="Generate a Script body for Postman and copy it to clipboard"
+                    icon="Icons.OPENCELL">
+            </action>
             <add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="CutCopyPasteGroup"/>
-        </action>
+        </group>
+
 
         <group id="ToolbarOpencellGroup">
             <separator/>

@@ -1,5 +1,6 @@
 package com.github.halvra.opencell.settings;
 
+import com.github.halvra.opencell.OpencellBundle;
 import com.github.halvra.opencell.settings.model.Environment;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.ui.components.JBCheckBox;
@@ -15,14 +16,14 @@ public class EnvironmentDialogWrapper extends DialogWrapper {
     private final JBTextField urlField = new JBTextField();
     private final JBTextField usernameField = new JBTextField();
     private final JBPasswordField passwordField = new JBPasswordField();
-    private final JBCheckBox preferredField = new JBCheckBox("Preferred ?");
+    private final JBCheckBox preferredField = new JBCheckBox(OpencellBundle.message("settings.environment.preferred"));
 
     private Environment environment;
 
     public EnvironmentDialogWrapper() {
         super(true); // use current window as parent
         init();
-        setTitle("Add/Edit Environment");
+        setTitle(OpencellBundle.message("settings.environment.dialog"));
     }
 
     public EnvironmentDialogWrapper(Environment environment) {
@@ -39,10 +40,11 @@ public class EnvironmentDialogWrapper extends DialogWrapper {
     @Override
     protected @Nullable JComponent createCenterPanel() {
         return FormBuilder.createFormBuilder()
-                .addLabeledComponent("Name", nameField)
-                .addLabeledComponent("URL", urlField)
-                .addLabeledComponent("Username", usernameField)
-                .addLabeledComponent("Password", passwordField)
+                .addLabeledComponent(OpencellBundle.message("settings.environment.name"), nameField)
+                .addLabeledComponent(OpencellBundle.message("settings.environment.url"), urlField)
+                .addTooltip(OpencellBundle.message("settings.environment.url.tooltip"))
+                .addLabeledComponent(OpencellBundle.message("settings.environment.username"), usernameField)
+                .addLabeledComponent(OpencellBundle.message("settings.environment.password"), passwordField)
                 .addComponent(preferredField)
                 .addComponentFillVertically(new JPanel(), 0)
                 .getPanel();
