@@ -7,6 +7,8 @@ import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,11 +19,13 @@ import java.util.List;
         name = "com.github.halvra.opencell.settings.ProjectSettingsState",
         storages = {@Storage("OpencellPlugin.xml")}
 )
+@Getter
+@Setter
 public class ProjectSettingsState implements PersistentStateComponent<ProjectSettingsState> {
-    List<Environment> environments = new ArrayList<>();
+    public static final String DEFAULT_SCRIPT_INTERFACE = "org.meveo.service.script.Script";
 
-    public ProjectSettingsState() {
-    }
+    private List<Environment> environments = new ArrayList<>();
+    private List<String> scriptInterfaces = new ArrayList<>();
 
     public static ProjectSettingsState getInstance(Project project) {
         if (project == null) {
@@ -29,6 +33,13 @@ public class ProjectSettingsState implements PersistentStateComponent<ProjectSet
         }
 
         return ServiceManager.getService(project, ProjectSettingsState.class);
+    }
+
+    @Override
+    public void initializeComponent() {
+        if (this.scriptInterfaces.isEmpty() || !this.scriptInterfaces.contains(DEFAULT_SCRIPT_INTERFACE)) {
+            this.scriptInterfaces.add(DEFAULT_SCRIPT_INTERFACE);
+        }
     }
 
     @Override
@@ -41,19 +52,11 @@ public class ProjectSettingsState implements PersistentStateComponent<ProjectSet
         XmlSerializerUtil.copyBean(state, this);
     }
 
-    public List<Environment> getEnvironments() {
-        return environments;
-    }
-
     public void setPreferredEnvironment(Environment environment) {
         environments.forEach(env -> env.setPreferred(env.equals(environment)));
     }
 
     public Environment getPreferredEnvironment() {
         return environments.isEmpty() ? null : environments.stream().filter(Environment::isPreferred).findFirst().orElse(environments.get(0));
-    }
-
-    public void setEnvironments(List<Environment> environments) {
-        this.environments = environments;
     }
 }

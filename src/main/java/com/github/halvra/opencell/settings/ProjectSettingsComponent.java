@@ -1,30 +1,33 @@
 package com.github.halvra.opencell.settings;
 
 import com.github.halvra.opencell.OpencellBundle;
+import com.github.halvra.opencell.settings.dialog.EnvironmentDialogWrapper;
+import com.github.halvra.opencell.settings.dialog.ScriptInterfaceDialogWrapper;
 import com.github.halvra.opencell.settings.model.Environment;
 import com.intellij.openapi.actionSystem.ActionToolbarPosition;
 import com.intellij.ui.BooleanTableCellRenderer;
+import com.intellij.ui.CollectionListModel;
 import com.intellij.ui.ToolbarDecorator;
+import com.intellij.ui.components.JBList;
 import com.intellij.ui.table.TableView;
 import com.intellij.util.ui.ColumnInfo;
 import com.intellij.util.ui.FormBuilder;
 import com.intellij.util.ui.ListTableModel;
+import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 
+@Getter
 public class ProjectSettingsComponent {
-
     private final JPanel mainPanel;
     private final TableView<Environment> environmentTable;
-
-    public JPanel getPanel() {
-        return mainPanel;
-    }
+    private final JBList<String> scriptInterfacesList;
 
     public ProjectSettingsComponent() {
         this.environmentTable = initEnvironmentTable();
+        this.scriptInterfacesList = new JBList<>(new CollectionListModel<>());
         this.mainPanel = FormBuilder.createFormBuilder()
                 .addLabeledComponent(OpencellBundle.message("settings.environment"), ToolbarDecorator.createDecorator(environmentTable).setToolbarPosition(ActionToolbarPosition.LEFT).setAddAction(action -> {
                     EnvironmentDialogWrapper dialog = new EnvironmentDialogWrapper();
@@ -34,18 +37,38 @@ public class ProjectSettingsComponent {
                     }
                 }).setRemoveAction(action -> {
                     environmentTable.getListTableModel().removeRow(environmentTable.getSelectedRow());
+                    environmentTable.updateUI();
                 }).setEditAction(action -> {
                     EnvironmentDialogWrapper dialog = new EnvironmentDialogWrapper(environmentTable.getSelectedObject());
                     if (dialog.showAndGet()) {
                         environmentTable.updateUI();
                     }
                 }).createPanel())
+                .addLabeledComponent(OpencellBundle.message("settings.scriptInterfaces"), ToolbarDecorator.createDecorator(scriptInterfacesList).setAddAction(action -> {
+                    ScriptInterfaceDialogWrapper dialog = new ScriptInterfaceDialogWrapper();
+                    if (dialog.showAndGet()) {
+                        ((CollectionListModel<String>) scriptInterfacesList.getModel()).add(dialog.getValue());
+                        environmentTable.updateUI();
+                    }
+                }).setEditAction(action -> {
+                    if (ProjectSettingsState.DEFAULT_SCRIPT_INTERFACE.equalsIgnoreCase(scriptInterfacesList.getSelectedValue())) {
+                        return;
+                    }
+
+                    ScriptInterfaceDialogWrapper dialog = new ScriptInterfaceDialogWrapper(scriptInterfacesList.getSelectedIndex(), scriptInterfacesList.getSelectedValue());
+                    if (dialog.showAndGet()) {
+                        ((CollectionListModel<String>) scriptInterfacesList.getModel()).setElementAt(dialog.getValue(), scriptInterfacesList.getSelectedIndex());
+                        environmentTable.updateUI();
+                    }
+                }).setRemoveAction(action -> {
+                    if (ProjectSettingsState.DEFAULT_SCRIPT_INTERFACE.equalsIgnoreCase(scriptInterfacesList.getSelectedValue())) {
+                        return;
+                    }
+
+                    ((CollectionListModel<String>) scriptInterfacesList.getModel()).remove(scriptInterfacesList.getSelectedIndex());
+                }).disableUpDownActions().createPanel())
                 .addComponentFillVertically(new JPanel(), 0)
                 .getPanel();
-    }
-
-    public TableView<Environment> getEnvironmentTable() {
-        return environmentTable;
     }
 
     private TableView<Environment> initEnvironmentTable() {

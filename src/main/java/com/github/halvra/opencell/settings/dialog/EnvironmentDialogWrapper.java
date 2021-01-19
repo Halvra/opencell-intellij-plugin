@@ -1,4 +1,4 @@
-package com.github.halvra.opencell.settings;
+package com.github.halvra.opencell.settings.dialog;
 
 import com.github.halvra.opencell.OpencellBundle;
 import com.github.halvra.opencell.settings.model.Environment;
