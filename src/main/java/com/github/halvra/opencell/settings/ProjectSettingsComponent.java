@@ -14,6 +14,7 @@ import com.intellij.util.ui.ColumnInfo;
 import com.intellij.util.ui.FormBuilder;
 import com.intellij.util.ui.ListTableModel;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -30,17 +31,20 @@ public class ProjectSettingsComponent {
         this.scriptInterfacesList = new JBList<>(new CollectionListModel<>());
         this.mainPanel = FormBuilder.createFormBuilder()
                 .addLabeledComponent(OpencellBundle.message("settings.environment"), ToolbarDecorator.createDecorator(environmentTable).setToolbarPosition(ActionToolbarPosition.LEFT).setAddAction(action -> {
-                    EnvironmentDialogWrapper dialog = new EnvironmentDialogWrapper();
+                    EnvironmentDialogWrapper dialog = new EnvironmentDialogWrapper(environmentTable.getListTableModel().getRowCount() < 1);
                     if (dialog.showAndGet()) {
                         environmentTable.getListTableModel().addRow(dialog.getEnvironment());
+                        updatePreferredEnvironment(dialog.getEnvironment());
                         environmentTable.updateUI();
                     }
                 }).setRemoveAction(action -> {
                     environmentTable.getListTableModel().removeRow(environmentTable.getSelectedRow());
+                    updatePreferredEnvironment(null);
                     environmentTable.updateUI();
                 }).setEditAction(action -> {
-                    EnvironmentDialogWrapper dialog = new EnvironmentDialogWrapper(environmentTable.getSelectedObject());
+                    EnvironmentDialogWrapper dialog = new EnvironmentDialogWrapper(environmentTable.getSelectedObject(), environmentTable.getListTableModel().getRowCount() == 1);
                     if (dialog.showAndGet()) {
+                        updatePreferredEnvironment(dialog.getEnvironment());
                         environmentTable.updateUI();
                     }
                 }).createPanel())
@@ -75,6 +79,14 @@ public class ProjectSettingsComponent {
         ListTableModel<Environment> model = new ListTableModel<>(buildEnvironmentColumnInfo());
 
         return new TableView<>(model);
+    }
+
+    private void updatePreferredEnvironment(Environment environment) {
+        if (this.environmentTable.getListTableModel().getItems().stream().noneMatch(Environment::isPreferred)) {
+            this.environmentTable.getListTableModel().getItems().stream().findFirst().ifPresent(env -> env.setPreferred(true));
+        } else if (environment.isPreferred()) {
+            this.environmentTable.getListTableModel().getItems().forEach(env -> env.setPreferred(env.equals(environment)));
+        }
     }
 
     private ColumnInfo[] buildEnvironmentColumnInfo() {

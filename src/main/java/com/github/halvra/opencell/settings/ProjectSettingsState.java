@@ -7,6 +7,7 @@ import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
+import com.intellij.util.xmlb.annotations.Transient;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
@@ -56,6 +57,7 @@ public class ProjectSettingsState implements PersistentStateComponent<ProjectSet
         environments.forEach(env -> env.setPreferred(env.equals(environment)));
     }
 
+    @Transient
     public Environment getPreferredEnvironment() {
         return environments.isEmpty() ? null : environments.stream().filter(Environment::isPreferred).findFirst().orElse(environments.get(0));
     }

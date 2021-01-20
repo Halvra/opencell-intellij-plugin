@@ -13,7 +13,7 @@
         <projectConfigurable parentId="tools" instance="com.github.halvra.opencell.settings.ProjectSettingsConfigurable"
                              id="OpencellSettings"
                              displayName="Opencell Plugin"/>
-        <projectService serviceImplementation="com.github.halvra.opencell.listeners.UploadToEnvironmentListener"/>
+        <fileDocumentManagerListener implementation="com.github.halvra.opencell.listeners.UploadToEnvironmentListener"/>
         <notificationGroup id="Opencell Notification Group" displayType="BALLOON"/>
     </extensions>
 

@@ -20,14 +20,17 @@ public class EnvironmentDialogWrapper extends DialogWrapper {
 
     private Environment environment;
 
-    public EnvironmentDialogWrapper() {
+    public EnvironmentDialogWrapper(boolean first) {
         super(true); // use current window as parent
         init();
         setTitle(OpencellBundle.message("settings.environment.dialog"));
+
+        this.preferredField.setSelected(first);
+        this.preferredField.setEnabled(!first);
     }
 
-    public EnvironmentDialogWrapper(Environment environment) {
-        this();
+    public EnvironmentDialogWrapper(Environment environment, boolean first) {
+        this(first);
 
         this.environment = environment;
         fillForm(environment);
