@@ -6,6 +6,8 @@ import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiJavaFile;
 import com.intellij.psi.impl.source.PsiJavaFileImpl;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
@@ -13,6 +15,7 @@ import java.util.Arrays;
 /**
  * Utility class for Opencell Scripts
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ScriptUtil {
     /**
      * Retrieve a {@link ScriptInstanceDto} based on provided {@link PsiJavaFileImpl}
