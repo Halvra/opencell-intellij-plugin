@@ -1,1 +1,1 @@
-rootProject.name = "intellij-opencell-plugin"
+rootProject.name = "opencell-intellij-plugin"
