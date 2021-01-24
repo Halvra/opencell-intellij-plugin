@@ -3,6 +3,7 @@
 ![Build](https://github.com/Halvra/opencell-intellij-plugin/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/15904.svg)](https://plugins.jetbrains.com/plugin/15904)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/15904.svg)](https://plugins.jetbrains.com/plugin/15904)
+[![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=opencell-intellij-plugin&metric=alert_status)](https://sonarcloud.io/dashboard?id=opencell-intellij-plugin)
 
 <!-- Plugin description -->
 This plugin adds to your IntelliJ IDE many features to simplify development with [Opencell](https://opencellsoft.com/) :

@@ -16,6 +16,8 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.15.0"
     // ktlint linter - read more: https://github.com/JLLeitschuh/ktlint-gradle
     id("org.jlleitschuh.gradle.ktlint") version "9.4.1"
+    // SonarCloud
+    id("org.sonarqube") version "3.0"
 }
 
 // Import variables from gradle.properties file
@@ -74,6 +76,14 @@ detekt {
         html.enabled = false
         xml.enabled = false
         txt.enabled = false
+    }
+}
+
+sonarqube {
+    properties {
+        property("sonar.projectKey", "opencell-intellij-plugin")
+        property("sonar.organization", "halvra")
+        property("sonar.host.url", "https://sonarcloud.io")
     }
 }
 

@@ -93,6 +93,14 @@ jobs:
       - name: Fetch Sources
         uses: actions/checkout@v2
 
+      # Cache Sonar packages
+      - name: Setup SonarCloud packages Cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
       # Cache Gradle Dependencies
       - name: Setup Gradle Dependencies Cache
         uses: actions/cache@v2
@@ -126,9 +134,12 @@ jobs:
           echo "::set-output name=changelog::$CHANGELOG"
           echo "::set-output name=artifact::$ARTIFACT"
 
-      # Build artifact using buildPlugin Gradle task
+      # Build artifact using buildPlugin Gradle task and analyse code with SonarCloud
       - name: Build Plugin
-        run: ./gradlew buildPlugin
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew buildPlugin sonarqube --info
 
       # Upload plugin artifact to make it available in the next jobs
       - name: Upload artifact
