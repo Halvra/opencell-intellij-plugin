@@ -22,7 +22,7 @@ public class ScriptInterfaceDialogWrapper extends DialogWrapper {
         setTitle(OpencellBundle.message("settings.scriptInterfaces.dialog"));
     }
 
-    public ScriptInterfaceDialogWrapper(int index, String value) {
+    public ScriptInterfaceDialogWrapper(String value) {
         this();
 
         this.value = value;

@@ -43,8 +43,8 @@ public class Environment {
         this.username = username;
         this.password = password;
 
-        String authorization = username + ":" + password;
-        this.authorization = Base64.getEncoder().encodeToString(authorization.getBytes(StandardCharsets.UTF_8));
+        String decodedAuthorization = username + ":" + password;
+        this.authorization = Base64.getEncoder().encodeToString(decodedAuthorization.getBytes(StandardCharsets.UTF_8));
     }
 
     public String getUsername() {
@@ -71,9 +71,9 @@ public class Environment {
 
     private void decodeAuthorization() {
         if (this.authorization != null && !this.authorization.trim().isEmpty()) {
-            String authorization = new String(Base64.getDecoder().decode(this.authorization));
-            if (authorization.contains(":")) {
-                String[] userPass = authorization.split(":");
+            String decodedAuthorization = new String(Base64.getDecoder().decode(this.authorization));
+            if (decodedAuthorization.contains(":")) {
+                String[] userPass = decodedAuthorization.split(":");
                 this.username = userPass[0];
                 this.password = userPass[1];
             }

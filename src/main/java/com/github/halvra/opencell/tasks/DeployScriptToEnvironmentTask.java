@@ -41,7 +41,7 @@ public class DeployScriptToEnvironmentTask extends Task.Backgroundable {
         CloseableHttpClient client = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(environment.getUrl() + "/api/rest/scriptInstance/createOrUpdate");
         httpPost.setHeader("Authorization", "Basic " + environment.getAuthorization());
-        try {
+        try (client) {
             httpPost.setEntity(new StringEntity(new ObjectMapper().writeValueAsString(scriptInstance), ContentType.APPLICATION_JSON));
             CloseableHttpResponse response = client.execute(httpPost);
             if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {

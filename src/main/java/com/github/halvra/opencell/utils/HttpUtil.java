@@ -1,6 +1,5 @@
 package com.github.halvra.opencell.utils;
 
-import com.intellij.remoteServer.configuration.ServerConfiguration;
 import com.intellij.util.net.HttpConfigurable;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

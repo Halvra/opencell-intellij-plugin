@@ -69,7 +69,7 @@ public final class ScriptUtil {
             javadoc = javadoc.trim();
             javadoc = javadoc.replaceAll("[\\r\\n]", "");
             javadoc = javadoc.replaceAll("\\s\\*|\\*\\s", "");
-            javadoc = javadoc.replaceAll("\\*/", "");
+            javadoc = javadoc.replace("\\*/", "");
             javadoc = javadoc.replace("/", "");
 
             return javadoc;

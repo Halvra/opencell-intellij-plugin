@@ -14,7 +14,6 @@ import com.intellij.util.ui.ColumnInfo;
 import com.intellij.util.ui.FormBuilder;
 import com.intellij.util.ui.ListTableModel;
 import lombok.Getter;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -59,7 +58,7 @@ public class ProjectSettingsComponent {
                         return;
                     }
 
-                    ScriptInterfaceDialogWrapper dialog = new ScriptInterfaceDialogWrapper(scriptInterfacesList.getSelectedIndex(), scriptInterfacesList.getSelectedValue());
+                    ScriptInterfaceDialogWrapper dialog = new ScriptInterfaceDialogWrapper(scriptInterfacesList.getSelectedValue());
                     if (dialog.showAndGet()) {
                         ((CollectionListModel<String>) scriptInterfacesList.getModel()).setElementAt(dialog.getValue(), scriptInterfacesList.getSelectedIndex());
                         environmentTable.updateUI();
