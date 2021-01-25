@@ -1,4 +1,4 @@
-# Opencell IntelliJ Plugin
+# Opencell Community Tools - IntelliJ Plugin
 
 ![Build](https://github.com/Halvra/opencell-intellij-plugin/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/15904.svg)](https://plugins.jetbrains.com/plugin/15904)

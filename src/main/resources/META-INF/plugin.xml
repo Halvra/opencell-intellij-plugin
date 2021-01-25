@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>com.github.halvra.opencell</id>
-    <name>Opencell</name>
+    <name>Opencell Community Tools</name>
     <vendor>Halvra</vendor>
 
     <!-- Product and plugin compatibility requirements -->
