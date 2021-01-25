@@ -3,6 +3,18 @@
 # Opencell Community Tools - IntelliJ Plugin Changelog
 
 ## [Unreleased]
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+## [1.0.0]
 ### Changed
 - Plugin name now reflect the real project intention
 - Overall code cleanup after [Sonar](https://sonarcloud.io/dashboard?id=opencell-intellij-plugin) setup
