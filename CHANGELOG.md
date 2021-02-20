@@ -12,6 +12,7 @@
 ### Removed
 
 ### Fixed
+- Abstract classes extending `org.meveo.service.script.Script` wrongly detected as valid Script
 
 ### Security
 ## [1.0.0]

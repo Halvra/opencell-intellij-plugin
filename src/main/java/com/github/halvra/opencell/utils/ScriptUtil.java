@@ -6,6 +6,7 @@ import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiJavaFile;
 import com.intellij.psi.impl.source.PsiJavaFileImpl;
+import com.intellij.psi.util.PsiUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -39,7 +40,7 @@ public final class ScriptUtil {
             PsiJavaFile psiJavaFile = (PsiJavaFile) psiFile;
             ProjectSettingsState settings = ProjectSettingsState.getInstance(psiFile.getProject());
 
-            return Arrays.stream(psiJavaFile.getClasses()).anyMatch(clazz -> {
+            return Arrays.stream(psiJavaFile.getClasses()).filter(clazz -> !PsiUtil.isAbstractClass(clazz)).anyMatch(clazz -> {
                 String superClassName = clazz.getSuperClass() != null ? clazz.getSuperClass().getQualifiedName() : "";
                 return StringUtils.isNotBlank(superClassName) && settings.getScriptInterfaces().contains(superClassName);
             });
