@@ -17,7 +17,7 @@ plugins {
     // ktlint linter - read more: https://github.com/JLLeitschuh/ktlint-gradle
     id("org.jlleitschuh.gradle.ktlint") version "9.4.1"
     // SonarCloud
-    id("org.sonarqube") version "3.0"
+    id("org.sonarqube") version "3.1.1"
 }
 
 // Import variables from gradle.properties file
