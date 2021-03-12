@@ -4,7 +4,7 @@
     <vendor>Halvra</vendor>
 
     <!-- Product and plugin compatibility requirements -->
-    <!-- https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
+    <!-- https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.java</depends>
 
@@ -12,27 +12,37 @@
         <projectService serviceImplementation="com.github.halvra.opencell.settings.ProjectSettingsState"/>
         <projectConfigurable parentId="tools" instance="com.github.halvra.opencell.settings.ProjectSettingsConfigurable"
                              id="OpencellSettings"
-                             displayName="Opencell Plugin"/>
+                             displayName="Opencell Community Tools"
+        />
         <fileDocumentManagerListener implementation="com.github.halvra.opencell.listeners.UploadToEnvironmentListener"/>
-        <notificationGroup id="Opencell Notification Group" displayType="BALLOON"/>
+        <notificationGroup id="Opencell Community Tools Notification Group" displayType="BALLOON"/>
     </extensions>
 
     <actions>
-        <group id="ProjectViewMenuOpencellGroup">
+        <group id="FileActionsOpencellGroup">
             <separator/>
             <action id="com.github.halvra.opencell.actions.GenerateScriptBodyAction"
                     class="com.github.halvra.opencell.actions.GenerateScriptBodyAction" text="Generate Script Body for Postman"
                     description="Generate a Script body for Postman and copy it to clipboard"
                     icon="Icons.OPENCELL">
+                <keyboard-shortcut first-keystroke="alt P" keymap="$default"/>
+            </action>
+            <action id="com.github.halvra.opencell.actions.DirectDeployComboBoxAction"
+                    class="com.github.halvra.opencell.actions.DirectDeployComboBoxAction"
+                    text="Deploy to Environment..."
+                    description="Deploy script to environment"
+                    icon="Icons.OPENCELL">
+                <keyboard-shortcut first-keystroke="alt D" keymap="$default"/>
             </action>
             <add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="CutCopyPasteGroup"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="CutCopyPasteGroup"/>
         </group>
 
 
         <group id="ToolbarOpencellGroup">
             <separator/>
-            <action id="com.github.halvra.opencell.actions.DeployEnvironmentComboBoxAction"
-                    class="com.github.halvra.opencell.actions.DeployEnvironmentComboBoxAction"
+            <action id="com.github.halvra.opencell.actions.SelectEnvironmentComboBoxAction"
+                    class="com.github.halvra.opencell.actions.SelectEnvironmentComboBoxAction"
                     text="Select Opencell Environment"
                     description="Select an Opencell environment">
             </action>

@@ -19,7 +19,7 @@ public class OpencellBundle extends AbstractBundle {
         return INSTANCE.getMessage(key, params);
     }
 
-    public Supplier<String> messagePointer(@PropertyKey(resourceBundle = BUNDLE) String key, Object... params) {
+    public static Supplier<String> messagePointer(@PropertyKey(resourceBundle = BUNDLE) String key, Object... params) {
         return INSTANCE.getLazyMessage(key, params);
     }
 }

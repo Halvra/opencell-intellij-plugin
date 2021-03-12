@@ -10,7 +10,6 @@ import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.actionSystem.ex.ComboBoxAction;
 import com.intellij.openapi.options.ShowSettingsUtil;
 import com.intellij.openapi.project.DumbAware;
-import com.intellij.openapi.project.IndexNotReadyException;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.SizedIcon;
 import com.intellij.ui.components.panels.NonOpaquePanel;
@@ -26,7 +25,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class DeployEnvironmentComboBoxAction extends ComboBoxAction implements DumbAware {
+public class SelectEnvironmentComboBoxAction extends ComboBoxAction implements DumbAware {
     private static final String BUTTON_MODE = "ButtonMode";
 
     public static final Icon CHECKED_ICON = JBUIScale.scaleIcon(new SizedIcon(AllIcons.Actions.Checked, 16, 16));
@@ -38,16 +37,12 @@ public class DeployEnvironmentComboBoxAction extends ComboBoxAction implements D
         Project project = e.getData(CommonDataKeys.PROJECT);
         ProjectSettingsState settings = ProjectSettingsState.getInstance(project);
 
-        try {
-            if (project == null || project.isDisposed() || !project.isOpen()) {
-                updatePresentation(null, null, presentation);
-                presentation.setEnabled(false);
-            } else {
-                updatePresentation(settings.getPreferredEnvironment(), project, presentation);
-                presentation.setEnabled(true);
-            }
-        } catch (IndexNotReadyException e1) {
+        if (project == null || project.isDisposed() || !project.isOpen()) {
+            updatePresentation(null, null, presentation);
             presentation.setEnabled(false);
+        } else {
+            updatePresentation(settings.getPreferredEnvironment(), project, presentation);
+            presentation.setEnabled(true);
         }
     }
 
