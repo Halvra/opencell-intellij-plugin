@@ -1,32 +1,27 @@
 package com.github.halvra.opencell.actions;
 
 import com.github.halvra.opencell.OpencellBundle;
-import com.github.halvra.opencell.dto.ScriptInstanceDto;
-import com.github.halvra.opencell.settings.ProjectSettingsState;
 import com.github.halvra.opencell.settings.model.Environment;
 import com.github.halvra.opencell.tasks.DeployScriptToEnvironmentTask;
 import com.github.halvra.opencell.utils.ScriptUtil;
 import com.intellij.analysis.problemsView.ProblemsCollector;
-import com.intellij.ide.DataManager;
-import com.intellij.openapi.actionSystem.*;
-import com.intellij.openapi.actionSystem.ex.ComboBoxAction;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
+import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.impl.source.PsiJavaFileImpl;
-import com.intellij.ui.components.panels.NonOpaquePanel;
 import com.intellij.ui.scale.JBUIScale;
-import com.intellij.util.ui.JBUI;
-import com.intellij.util.ui.UIUtil;
 import icons.Icons;
 import org.jetbrains.annotations.NotNull;
+import org.meveo.api.dto.ScriptInstanceDto;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
-public class DirectDeployComboBoxAction extends ComboBoxAction implements DumbAware {
+public class DirectDeployComboBoxAction extends EnvironmentComboBoxAction {
     @Override
     public void update(@NotNull AnActionEvent e) {
         Presentation presentation = e.getPresentation();
@@ -40,11 +35,6 @@ public class DirectDeployComboBoxAction extends ComboBoxAction implements DumbAw
         }
     }
 
-    @Override
-    protected boolean shouldShowDisabledActions() {
-        return true;
-    }
-
     @NotNull
     @Override
     public JComponent createCustomComponent(@NotNull final Presentation presentation, @NotNull String place) {
@@ -56,29 +46,12 @@ public class DirectDeployComboBoxAction extends ComboBoxAction implements DumbAw
                 return d;
             }
         };
-        NonOpaquePanel panel = new NonOpaquePanel(new BorderLayout());
-        Border border = UIUtil.isUnderDefaultMacTheme() ?
-                JBUI.Borders.empty(0, 2) : JBUI.Borders.empty(0, 5, 0, 4);
-
-        panel.setBorder(border);
-        panel.add(myButton);
-        return panel;
+        return createCustomComponent(myButton);
     }
 
     @Override
-    protected @NotNull DefaultActionGroup createPopupActionGroup(JComponent button) {
-        final DefaultActionGroup allActionsGroup = new DefaultActionGroup();
-        final Project project = CommonDataKeys.PROJECT.getData(DataManager.getInstance().getDataContext(button));
-        if (project == null) {
-            return allActionsGroup;
-        }
-
-        final ProjectSettingsState settings = ProjectSettingsState.getInstance(project);
-
-        allActionsGroup.addSeparator();
-        settings.getEnvironments().forEach(environment -> allActionsGroup.add(new SelectEnvironmentAction(project, environment)));
-
-        return allActionsGroup;
+    protected AnAction selectAction(Project project, Environment environment) {
+        return new SelectEnvironmentAction(project, environment);
     }
 
     private static final class SelectEnvironmentAction extends AnAction {

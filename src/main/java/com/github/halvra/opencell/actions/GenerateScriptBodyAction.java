@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.halvra.opencell.OpencellBundle;
 import com.github.halvra.opencell.OpencellNotifier;
-import com.github.halvra.opencell.dto.ScriptInstanceDto;
 import com.github.halvra.opencell.utils.ScriptUtil;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -15,6 +14,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.impl.source.PsiJavaFileImpl;
 import org.jetbrains.annotations.NotNull;
+import org.meveo.api.dto.ScriptInstanceDto;
 
 import java.awt.datatransfer.StringSelection;
 

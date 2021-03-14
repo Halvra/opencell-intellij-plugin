@@ -8,6 +8,7 @@
 - Action for directly deploy a script to an environment (context menu or <kbd>Alt</kbd>+<kbd>D</kbd>)
 
 ### Changed
+- Using `opencell-api-dto` dependency to simplify new feature implementation instead of creating DTO directly in this plugin
 
 ### Deprecated
 

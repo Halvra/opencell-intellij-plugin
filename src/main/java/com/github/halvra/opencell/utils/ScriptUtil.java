@@ -1,6 +1,5 @@
 package com.github.halvra.opencell.utils;
 
-import com.github.halvra.opencell.dto.ScriptInstanceDto;
 import com.github.halvra.opencell.settings.ProjectSettingsState;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.psi.PsiFile;
@@ -10,6 +9,7 @@ import com.intellij.psi.util.PsiUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.meveo.api.dto.ScriptInstanceDto;
 
 import java.util.Arrays;
 

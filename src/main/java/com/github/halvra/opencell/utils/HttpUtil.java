@@ -3,28 +3,34 @@ package com.github.halvra.opencell.utils;
 import com.intellij.util.net.HttpConfigurable;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
 
-import java.net.InetSocketAddress;
-import java.net.Proxy;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+/**
+ * Utility class for Apache Http Client
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class HttpUtil {
-    private static void configureProxy(String url, Consumer<Proxy> proxyConsumer, BiConsumer<String, String> credentialsConsumer) {
+    /**
+     * Proxy configurer based on IDE settings
+     */
+    public static void configureProxy(String url, Consumer<HttpHost> proxyConsumer, BiConsumer<AuthScope, UsernamePasswordCredentials> credentialsConsumer) {
         HttpConfigurable httpConfigurable = HttpConfigurable.getInstance();
         if (!httpConfigurable.isHttpProxyEnabledForUrl(url)) {
             return;
         }
-        Proxy.Type type = httpConfigurable.PROXY_TYPE_IS_SOCKS ? Proxy.Type.SOCKS : Proxy.Type.HTTP;
 
-        Proxy proxy = new Proxy(type, new InetSocketAddress(httpConfigurable.PROXY_HOST, httpConfigurable.PROXY_PORT));
-        proxyConsumer.accept(proxy);
+        proxyConsumer.accept(new HttpHost(httpConfigurable.PROXY_HOST, httpConfigurable.PROXY_PORT));
 
         if (httpConfigurable.PROXY_AUTHENTICATION) {
             String proxyLogin = httpConfigurable.getProxyLogin();
             if (proxyLogin != null) {
-                credentialsConsumer.accept(proxyLogin, httpConfigurable.getPlainProxyPassword());
+                credentialsConsumer.accept(new AuthScope(httpConfigurable.PROXY_HOST, httpConfigurable.PROXY_PORT),
+                        new UsernamePasswordCredentials(proxyLogin, httpConfigurable.getPlainProxyPassword()));
             }
         }
     }

@@ -33,7 +33,7 @@ public class ProjectSettingsState implements PersistentStateComponent<ProjectSet
             return null;
         }
 
-        return ServiceManager.getService(project, ProjectSettingsState.class);
+        return project.getService(ProjectSettingsState.class);
     }
 
     @Override

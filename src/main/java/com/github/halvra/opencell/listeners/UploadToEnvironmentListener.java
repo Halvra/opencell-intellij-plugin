@@ -1,7 +1,6 @@
 package com.github.halvra.opencell.listeners;
 
 import com.github.halvra.opencell.actions.AutoDeployAction;
-import com.github.halvra.opencell.dto.ScriptInstanceDto;
 import com.github.halvra.opencell.settings.ProjectSettingsState;
 import com.github.halvra.opencell.settings.model.Environment;
 import com.github.halvra.opencell.tasks.DeployScriptToEnvironmentTask;
@@ -18,6 +17,7 @@ import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.impl.source.PsiJavaFileImpl;
 import org.jetbrains.annotations.NotNull;
+import org.meveo.api.dto.ScriptInstanceDto;
 
 public class UploadToEnvironmentListener implements FileDocumentManagerListener {
 

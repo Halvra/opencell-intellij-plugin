@@ -42,6 +42,7 @@ version = pluginVersion
 repositories {
     mavenCentral()
     jcenter()
+    maven("https://nexus.int.opencell.work/repository/maven-public/")
 }
 dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.16.0")
@@ -51,6 +52,7 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.16")
     testCompileOnly("org.projectlombok:lombok:1.18.16")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.16")
+    implementation("com.opencellsoft:opencell-api-dto:9.5.2")
 }
 
 // Configure gradle-intellij-plugin plugin.
