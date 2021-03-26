@@ -52,7 +52,9 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.16")
     testCompileOnly("org.projectlombok:lombok:1.18.16")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.16")
-    implementation("com.opencellsoft:opencell-api-dto:9.5.2")
+    implementation("com.opencellsoft:opencell-api-dto:9.5.2") {
+        exclude("*")
+    }
 }
 
 // Configure gradle-intellij-plugin plugin.
