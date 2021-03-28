@@ -4,6 +4,18 @@
 
 ## [Unreleased]
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+## [1.1.0]
+### Added
 - Shortcut for postman generation on a script (<kbd>Alt</kbd>+<kbd>P</kbd>)
 - Action for directly deploy a script to an environment (context menu or <kbd>Alt</kbd>+<kbd>D</kbd>)
 
