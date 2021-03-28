@@ -49,10 +49,15 @@ dependencies {
 
     // Lombok
     compileOnly("org.projectlombok:lombok:1.18.18")
-    annotationProcessor("org.projectlombok:lombok:1.18.16")
-    testCompileOnly("org.projectlombok:lombok:1.18.16")
-    testAnnotationProcessor("org.projectlombok:lombok:1.18.16")
+    annotationProcessor("org.projectlombok:lombok:1.18.18")
+    testCompileOnly("org.projectlombok:lombok:1.18.18")
+    testAnnotationProcessor("org.projectlombok:lombok:1.18.18")
+
+    // Opencell
     implementation("com.opencellsoft:opencell-api-dto:9.5.2") {
+        exclude("*")
+    }
+    implementation("com.opencellsoft:opencell-model:9.5.2") {
         exclude("*")
     }
 }
