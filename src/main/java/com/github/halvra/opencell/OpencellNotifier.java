@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OpencellNotifier {
-    private static final NotificationGroup NOTIFICATION_GROUP = NotificationGroupManager.getInstance().getNotificationGroup("Opencell Notification Group");
+    private static final NotificationGroup NOTIFICATION_GROUP = NotificationGroupManager.getInstance().getNotificationGroup("OPENCELL_COMMUNITY_TOOLS");
 
     public static void notifyError(@Nullable Project project, String content) {
         NOTIFICATION_GROUP.createNotification(content, NotificationType.ERROR).notify(project);

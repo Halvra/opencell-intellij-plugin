@@ -8,6 +8,7 @@
 
 ### Fixed
 - [#12](https://github.com/Halvra/opencell-intellij-plugin/issues/12) Exception on <kbd>Alt+D</kbd> during indexing
+- [#15](https://github.com/Halvra/opencell-intellij-plugin/issues/15) Exception when deploy task fail
 
 ## [1.1.0]
 ### Added
