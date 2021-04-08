@@ -6,6 +6,9 @@
 ### Added
 - Support for IntelliJ 2021.1
 
+### Fixed
+- [#12](https://github.com/Halvra/opencell-intellij-plugin/issues/12) Exception on <kbd>Alt+D</kbd> during indexing
+
 ## [1.1.0]
 ### Added
 - Shortcut for postman generation on a script (<kbd>Alt</kbd>+<kbd>P</kbd>)

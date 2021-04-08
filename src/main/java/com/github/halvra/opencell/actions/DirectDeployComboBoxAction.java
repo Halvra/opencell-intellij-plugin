@@ -10,6 +10,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.progress.ProgressManager;
+import com.intellij.openapi.project.IndexNotReadyException;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.impl.source.PsiJavaFileImpl;
@@ -27,11 +28,15 @@ public class DirectDeployComboBoxAction extends EnvironmentComboBoxAction {
         Presentation presentation = e.getPresentation();
         PsiFile psiFile = e.getData(CommonDataKeys.PSI_FILE);
 
-        if (!ScriptUtil.isScript(psiFile)) {
-            presentation.setEnabledAndVisible(false);
-        } else {
-            Project project = e.getData(CommonDataKeys.PROJECT);
-            presentation.setEnabled(project != null && !project.isDisposed() && project.isOpen());
+        try {
+            if (!ScriptUtil.isScript(psiFile)) {
+                presentation.setEnabledAndVisible(false);
+            } else {
+                Project project = e.getData(CommonDataKeys.PROJECT);
+                presentation.setEnabled(project != null && !project.isDisposed() && project.isOpen());
+            }
+        } catch (IndexNotReadyException ignored) {
+            presentation.setEnabled(false);
         }
     }
 
