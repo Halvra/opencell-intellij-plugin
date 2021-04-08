@@ -4,16 +4,8 @@
 
 ## [Unreleased]
 ### Added
+- Support for IntelliJ 2021.1
 
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
 ## [1.1.0]
 ### Added
 - Shortcut for postman generation on a script (<kbd>Alt</kbd>+<kbd>P</kbd>)
