@@ -35,18 +35,18 @@ public class OpencellApiService {
         return new OpencellApiService(environment);
     }
 
-    public ScriptInstanceReponseDto createOrUpdateScript(ScriptInstanceDto scriptInstanceDto) {
+    public ScriptInstanceReponseDto createOrUpdateScript(ScriptInstanceDto scriptInstanceDto) throws IOException {
         return post("/api/rest/scriptInstance/createOrUpdate", scriptInstanceDto, ScriptInstanceReponseDto.class);
     }
 
-    private <T> T post(String path, Object body, Class<T> returnType) {
+    private <T> T post(String path, Object body, Class<T> returnType) throws IOException {
         HttpPost httpPost = new HttpPost(environment.getUrl() + path);
         httpPost.setEntity(new StringEntity(gson.toJson(body), ContentType.APPLICATION_JSON));
 
         return execute(httpPost, returnType);
     }
 
-    private <T> T execute(HttpUriRequest request, Class<T> returnType) {
+    private <T> T execute(HttpUriRequest request, Class<T> returnType) throws IOException {
         request.setHeader("Authorization", "Basic " + environment.getAuthorization());
 
         try (CloseableHttpClient client = getClient()) {
@@ -56,9 +56,6 @@ public class OpencellApiService {
             };
 
             return client.execute(request, responseHandler);
-        } catch (IOException e) {
-            LOGGER.error("Failed to deploy script to target environment", e);
-            return null;
         }
     }
 

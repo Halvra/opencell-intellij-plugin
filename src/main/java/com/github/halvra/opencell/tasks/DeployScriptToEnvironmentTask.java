@@ -13,6 +13,8 @@ import org.meveo.api.dto.ActionStatusEnum;
 import org.meveo.api.dto.ScriptInstanceDto;
 import org.meveo.api.dto.response.ScriptInstanceReponseDto;
 
+import java.io.IOException;
+
 public class DeployScriptToEnvironmentTask extends Task.Backgroundable {
     private final ScriptInstanceDto scriptInstance;
     private final Environment environment;
@@ -29,16 +31,21 @@ public class DeployScriptToEnvironmentTask extends Task.Backgroundable {
         indicator.setIndeterminate(true);
         indicator.setText(OpencellBundle.message("tasks.deployScript.progress", scriptInstance.getCode(), environment.getName()));
 
-        ScriptInstanceReponseDto response = OpencellApiService.getInstance(environment).createOrUpdateScript(scriptInstance);
-        if (response == null || response.getActionStatus().getStatus() != ActionStatusEnum.SUCCESS) {
-            String errorMessage;
-            if (response == null) {
-                errorMessage = OpencellBundle.message("tasks.deployScript.unknownError", environment.getName());
-            } else {
-                errorMessage = OpencellBundle.message("tasks.deployScript.error", environment.getName(), response.getActionStatus().getMessage());
-            }
+        try {
+            ScriptInstanceReponseDto response = OpencellApiService.getInstance(environment).createOrUpdateScript(scriptInstance);
 
-            OpencellNotifier.notifyError(myProject, errorMessage);
+            if (response == null || response.getActionStatus().getStatus() != ActionStatusEnum.SUCCESS) {
+                String errorMessage;
+                if (response == null) {
+                    errorMessage = OpencellBundle.message("tasks.deployScript.unknownError", environment.getName());
+                } else {
+                    errorMessage = OpencellBundle.message("tasks.deployScript.error", environment.getName(), response.getActionStatus().getMessage());
+                }
+
+                OpencellNotifier.notifyError(myProject, errorMessage);
+            }
+        } catch (IOException e) {
+            OpencellNotifier.notifyError(myProject, OpencellBundle.message("tasks.deployScript.error", environment.getName(), e.getMessage()));
         }
     }
 }
