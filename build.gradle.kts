@@ -19,7 +19,7 @@ plugins {
     // ktlint linter - read more: https://github.com/JLLeitschuh/ktlint-gradle
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
     // SonarCloud
-    id("org.sonarqube") version "3.1.1"
+    id("org.sonarqube") version "3.2.0"
 }
 
 group = properties("pluginGroup")
