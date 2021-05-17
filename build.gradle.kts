@@ -32,7 +32,7 @@ repositories {
     maven("https://nexus.int.opencell.work/repository/maven-public/")
 }
 dependencies {
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.16.0")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.17.0")
 
     // Lombok
     compileOnly("org.projectlombok:lombok:1.18.18")
