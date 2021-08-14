@@ -3,6 +3,9 @@
 # Opencell Community Tools - IntelliJ Plugin Changelog
 
 ## [Unreleased]
+### Added
+- Support for IntelliJ 2021.2
+
 ## [1.2.0]
 ### Added
 - Support for IntelliJ 2021.1
