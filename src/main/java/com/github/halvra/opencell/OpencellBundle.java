@@ -1,12 +1,12 @@
 package com.github.halvra.opencell;
 
-import com.intellij.AbstractBundle;
+import com.intellij.DynamicBundle;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.PropertyKey;
 
 import java.util.function.Supplier;
 
-public class OpencellBundle extends AbstractBundle {
+public class OpencellBundle extends DynamicBundle {
     @NonNls
     private static final String BUNDLE = "messages.OpencellBundle";
     private static final OpencellBundle INSTANCE = new OpencellBundle();

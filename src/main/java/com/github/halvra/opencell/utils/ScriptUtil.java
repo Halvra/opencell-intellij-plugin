@@ -62,7 +62,6 @@ public final class ScriptUtil {
             String javadoc = source.substring(i + 4, j);
             javadoc = javadoc.substring(0, javadoc.indexOf("\n"));
 
-
             if (javadoc.length() >= 255) {
                 javadoc = javadoc.substring(0, 252).concat("...");
             }
