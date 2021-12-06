@@ -29,7 +29,7 @@ repositories {
 }
 dependencies {
     // Lombok
-    compileOnly("org.projectlombok:lombok:1.18.18")
+    compileOnly("org.projectlombok:lombok:1.18.22")
     annotationProcessor("org.projectlombok:lombok:1.18.18")
     testCompileOnly("org.projectlombok:lombok:1.18.18")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.18")
