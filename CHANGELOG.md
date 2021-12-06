@@ -3,8 +3,9 @@
 # Opencell Community Tools - IntelliJ Plugin Changelog
 
 ## [Unreleased]
+
+## [1.2.2]
 ### Added
-- Support for IntelliJ 2021.3
 
 ## [1.2.1]
 ### Added
@@ -29,14 +30,9 @@
 ### Changed
 - Use `opencell-api-dto` dependency to simplify new feature implementation instead of creating DTO directly in this plugin
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 - Abstract classes extending `org.meveo.service.script.Script` wrongly detected as valid Script
 
-### Security
 ## [1.0.0]
 ### Changed
 - Plugin name now reflect the real project intention
