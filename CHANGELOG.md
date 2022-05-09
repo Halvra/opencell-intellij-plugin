@@ -3,6 +3,8 @@
 # Opencell Community Tools - IntelliJ Plugin Changelog
 
 ## [Unreleased]
+### Added
+- Support for IntelliJ 2022.1
 
 ## [1.2.2]
 ### Added
