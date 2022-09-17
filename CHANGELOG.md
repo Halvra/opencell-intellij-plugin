@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 ### Added
+- Support for IntelliJ 2022.2
+
+## [1.2.3]
+### Added
 - Support for IntelliJ 2022.1
 
 ## [1.2.2]
