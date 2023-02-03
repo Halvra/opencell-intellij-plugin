@@ -26,6 +26,6 @@ This plugin adds to your IntelliJ IDE many features to simplify development with
 
 
 ---
-Plugin based on the [IntelliJ Platform Plugin Template][template] version 1.2.0.
+Plugin based on the [IntelliJ Platform Plugin Template][template] version 1.4.0.
 
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template
