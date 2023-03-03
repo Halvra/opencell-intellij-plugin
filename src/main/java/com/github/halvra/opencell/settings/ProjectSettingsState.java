@@ -1,10 +1,8 @@
 package com.github.halvra.opencell.settings;
 
 import com.github.halvra.opencell.settings.model.Environment;
-import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.components.State;
-import com.intellij.openapi.components.Storage;
+import com.github.halvra.opencell.utils.ScriptUtil;
+import com.intellij.openapi.components.*;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.intellij.util.xmlb.annotations.Transient;
@@ -18,12 +16,12 @@ import java.util.List;
 
 @State(
         name = "com.github.halvra.opencell.settings.ProjectSettingsState",
-        storages = {@Storage("OpencellPlugin.xml")}
+        storages = {@Storage("OpencellPlugin.xml")},
+        category = SettingsCategory.TOOLS
 )
 @Getter
 @Setter
 public class ProjectSettingsState implements PersistentStateComponent<ProjectSettingsState> {
-    public static final String DEFAULT_SCRIPT_INTERFACE = "org.meveo.service.script.Script";
 
     private List<Environment> environments = new ArrayList<>();
     private List<String> scriptInterfaces = new ArrayList<>();
@@ -38,8 +36,8 @@ public class ProjectSettingsState implements PersistentStateComponent<ProjectSet
 
     @Override
     public void initializeComponent() {
-        if (this.scriptInterfaces.isEmpty() || !this.scriptInterfaces.contains(DEFAULT_SCRIPT_INTERFACE)) {
-            this.scriptInterfaces.add(DEFAULT_SCRIPT_INTERFACE);
+        if (this.scriptInterfaces.isEmpty() || !this.scriptInterfaces.contains(ScriptUtil.DEFAULT_SCRIPT_INTERFACE)) {
+            this.scriptInterfaces.add(ScriptUtil.DEFAULT_SCRIPT_INTERFACE);
         }
     }
 

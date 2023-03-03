@@ -1,10 +1,13 @@
 package com.github.halvra.opencell.settings.model;
 
+import lombok.Data;
+
 import javax.xml.bind.annotation.XmlTransient;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Objects;
 
+@Data
 public class Environment {
     private String name;
     private String url;
@@ -14,30 +17,6 @@ public class Environment {
     @XmlTransient
     private String password;
     private boolean preferred;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getAuthorization() {
-        return authorization;
-    }
-
-    public void setAuthorization(String authorization) {
-        this.authorization = authorization;
-    }
 
     public void setAuthorization(String username, String password) {
         this.username = username;
@@ -61,14 +40,6 @@ public class Environment {
         return password;
     }
 
-    public boolean isPreferred() {
-        return preferred;
-    }
-
-    public void setPreferred(boolean preferred) {
-        this.preferred = preferred;
-    }
-
     private void decodeAuthorization() {
         if (this.authorization != null && !this.authorization.trim().isEmpty()) {
             String decodedAuthorization = new String(Base64.getDecoder().decode(this.authorization));
@@ -78,28 +49,5 @@ public class Environment {
                 this.password = userPass[1];
             }
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Environment{" +
-                "name='" + name + '\'' +
-                ", url='" + url + '\'' +
-                ", authorization='" + authorization + '\'' +
-                ", preferred=" + preferred +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Environment that = (Environment) o;
-        return preferred == that.preferred && Objects.equals(name, that.name) && Objects.equals(url, that.url) && Objects.equals(authorization, that.authorization);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, url, authorization, preferred);
     }
 }

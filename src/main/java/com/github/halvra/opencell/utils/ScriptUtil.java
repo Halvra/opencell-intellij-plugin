@@ -1,10 +1,15 @@
 package com.github.halvra.opencell.utils;
 
 import com.github.halvra.opencell.settings.ProjectSettingsState;
+import com.intellij.lang.jvm.JvmModifier;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.io.FileUtil;
+import com.intellij.psi.JavaPsiFacade;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiJavaFile;
 import com.intellij.psi.impl.source.PsiJavaFileImpl;
+import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.psi.search.searches.ClassInheritorsSearch;
 import com.intellij.psi.util.PsiUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -12,12 +17,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.meveo.api.dto.ScriptInstanceDto;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Utility class for Opencell Scripts
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ScriptUtil {
+    public static final String DEFAULT_SCRIPT_INTERFACE = "org.meveo.service.script.ScriptInterface";
+
     /**
      * Retrieve a {@link ScriptInstanceDto} based on provided {@link PsiJavaFileImpl}
      *
@@ -47,6 +56,21 @@ public final class ScriptUtil {
         }
 
         return false;
+    }
+
+    /**
+     * Detect interfaces or abstract classes inherits default script interface for given {@link Project}
+     */
+    public static List<String> getScriptsInterfaces(Project project) {
+        var projectScope = GlobalSearchScope.allScope(project);
+        var psiFacade = JavaPsiFacade.getInstance(project);
+        var defaultScriptInterfaceClass = psiFacade.findClass(DEFAULT_SCRIPT_INTERFACE, projectScope);
+        var query = ClassInheritorsSearch.search(defaultScriptInterfaceClass, projectScope, true);
+
+        return query.allowParallelProcessing().findAll().stream()
+                .filter(psiClass -> psiClass.isInterface() || psiClass.hasModifier(JvmModifier.ABSTRACT))
+                .map(psiClass -> psiClass.getQualifiedName())
+                .collect(Collectors.toList());
     }
 
     /**

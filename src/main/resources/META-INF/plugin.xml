@@ -52,4 +52,9 @@
             <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
         </group>
     </actions>
+
+    <applicationListeners>
+        <listener class="com.github.halvra.opencell.listeners.OpencellProjectManagerListener"
+                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
+    </applicationListeners>
 </idea-plugin>

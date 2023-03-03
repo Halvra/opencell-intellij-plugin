@@ -4,7 +4,9 @@ import com.github.halvra.opencell.OpencellBundle;
 import com.github.halvra.opencell.settings.dialog.EnvironmentDialogWrapper;
 import com.github.halvra.opencell.settings.dialog.ScriptInterfaceDialogWrapper;
 import com.github.halvra.opencell.settings.model.Environment;
+import com.github.halvra.opencell.utils.ScriptUtil;
 import com.intellij.openapi.actionSystem.ActionToolbarPosition;
+import com.intellij.openapi.project.Project;
 import com.intellij.ui.BooleanTableCellRenderer;
 import com.intellij.ui.CollectionListModel;
 import com.intellij.ui.ToolbarDecorator;
@@ -21,13 +23,17 @@ import javax.swing.table.TableCellRenderer;
 
 @Getter
 public class ProjectSettingsComponent {
+    private final Project project;
     private final JPanel mainPanel;
     private final TableView<Environment> environmentTable;
     private final JBList<String> scriptInterfacesList;
+    private final JButton scriptInterfacesAutoDetectButton;
 
-    public ProjectSettingsComponent() {
+    public ProjectSettingsComponent(Project project) {
+        this.project = project;
         this.environmentTable = initEnvironmentTable();
         this.scriptInterfacesList = new JBList<>(new CollectionListModel<>());
+        this.scriptInterfacesAutoDetectButton = new JButton(OpencellBundle.message("settings.scriptInterfaces.autoDetect"));
         this.mainPanel = FormBuilder.createFormBuilder()
                 .addLabeledComponent(OpencellBundle.message("settings.environment"), ToolbarDecorator.createDecorator(environmentTable).setToolbarPosition(ActionToolbarPosition.LEFT).setAddAction(action -> {
                     EnvironmentDialogWrapper dialog = new EnvironmentDialogWrapper(environmentTable.getListTableModel().getRowCount() < 1);
@@ -54,7 +60,7 @@ public class ProjectSettingsComponent {
                         environmentTable.updateUI();
                     }
                 }).setEditAction(action -> {
-                    if (ProjectSettingsState.DEFAULT_SCRIPT_INTERFACE.equalsIgnoreCase(scriptInterfacesList.getSelectedValue())) {
+                    if (ScriptUtil.DEFAULT_SCRIPT_INTERFACE.equalsIgnoreCase(scriptInterfacesList.getSelectedValue())) {
                         return;
                     }
 
@@ -64,20 +70,34 @@ public class ProjectSettingsComponent {
                         environmentTable.updateUI();
                     }
                 }).setRemoveAction(action -> {
-                    if (ProjectSettingsState.DEFAULT_SCRIPT_INTERFACE.equalsIgnoreCase(scriptInterfacesList.getSelectedValue())) {
+                    if (ScriptUtil.DEFAULT_SCRIPT_INTERFACE.equalsIgnoreCase(scriptInterfacesList.getSelectedValue())) {
                         return;
                     }
 
                     ((CollectionListModel<String>) scriptInterfacesList.getModel()).remove(scriptInterfacesList.getSelectedIndex());
                 }).disableUpDownActions().createPanel())
+                .addComponent(this.scriptInterfacesAutoDetectButton)
                 .addComponentFillVertically(new JPanel(), 0)
                 .getPanel();
+        this.scriptInterfacesAutoDetectButton.addActionListener(actionEvent -> {
+            updateScriptInterfaces();
+        });
     }
 
     private TableView<Environment> initEnvironmentTable() {
         ListTableModel<Environment> model = new ListTableModel<>(buildEnvironmentColumnInfo());
 
         return new TableView<>(model);
+    }
+
+    private void updateScriptInterfaces() {
+        var scriptInterfacesModel = ((CollectionListModel<String>) scriptInterfacesList.getModel());
+        var detectedScriptInterfaces = ScriptUtil.getScriptsInterfaces(project);
+        detectedScriptInterfaces.forEach(scriptInterface -> {
+            if (!scriptInterfacesModel.contains(scriptInterface)) {
+                scriptInterfacesModel.add(scriptInterface);
+            }
+        });
     }
 
     private void updatePreferredEnvironment(Environment environment) {
