@@ -13,7 +13,8 @@
                              displayName="Opencell Community Tools"
         />
         <fileDocumentManagerListener implementation="com.github.halvra.opencell.listeners.UploadToEnvironmentListener"/>
-        <notificationGroup id="OPENCELL_COMMUNITY_TOOLS" bundle="messages.OpencellBundle" key="notificationGroup" displayType="BALLOON"/>
+        <notificationGroup id="OPENCELL_COMMUNITY_TOOLS_BALLOON" bundle="messages.OpencellBundle" key="notificationGroup" displayType="BALLOON"/>
+        <notificationGroup id="OPENCELL_COMMUNITY_TOOLS_STICKY_BALLOON" bundle="messages.OpencellBundle" key="notificationGroup" displayType="STICKY_BALLOON"/>
     </extensions>
 
     <actions>

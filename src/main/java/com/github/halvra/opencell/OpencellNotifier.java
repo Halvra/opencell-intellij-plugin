@@ -1,22 +1,37 @@
 package com.github.halvra.opencell;
 
-import com.intellij.notification.NotificationGroup;
-import com.intellij.notification.NotificationGroupManager;
-import com.intellij.notification.NotificationType;
+import com.intellij.notification.*;
+import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Consumer;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OpencellNotifier {
-    private static final NotificationGroup NOTIFICATION_GROUP = NotificationGroupManager.getInstance().getNotificationGroup("OPENCELL_COMMUNITY_TOOLS");
+    private static final NotificationGroup NOTIFICATION_GROUP = NotificationGroupManager.getInstance().getNotificationGroup("OPENCELL_COMMUNITY_TOOLS_BALLOON");
+    private static final NotificationGroup STICKY_NOTIFICATION_GROUP = NotificationGroupManager.getInstance().getNotificationGroup("OPENCELL_COMMUNITY_TOOLS_STICKY_BALLOON");
 
     public static void notifyError(@Nullable Project project, String content) {
-        NOTIFICATION_GROUP.createNotification(content, NotificationType.ERROR).notify(project);
+        NOTIFICATION_GROUP.createNotification(OpencellBundle.message("plugin.name"), content, NotificationType.ERROR).notify(project);
     }
 
     public static void notifyInformation(@Nullable Project project, String content) {
-        NOTIFICATION_GROUP.createNotification(content, NotificationType.INFORMATION).notify(project);
+        NOTIFICATION_GROUP.createNotification(OpencellBundle.message("plugin.name"), content, NotificationType.INFORMATION).notify(project);
+    }
+
+    public static void notifyInformationWithAction(@Nullable Project project, String notificationContent, String actionTitle, Consumer<AnActionEvent> action) {
+        STICKY_NOTIFICATION_GROUP.createNotification(OpencellBundle.message("plugin.name"), notificationContent, NotificationType.INFORMATION)
+                .addAction(new NotificationAction(actionTitle) {
+                    @Override
+                    public void actionPerformed(@NotNull AnActionEvent e, @NotNull Notification notification) {
+                        action.accept(e);
+                        notification.expire();
+                    }
+                })
+                .notify(project);
     }
 }

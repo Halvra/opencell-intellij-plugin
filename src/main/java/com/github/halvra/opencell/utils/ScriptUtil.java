@@ -2,9 +2,11 @@ package com.github.halvra.opencell.utils;
 
 import com.github.halvra.opencell.settings.ProjectSettingsState;
 import com.intellij.lang.jvm.JvmModifier;
+import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.psi.JavaPsiFacade;
+import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiJavaFile;
 import com.intellij.psi.impl.source.PsiJavaFileImpl;
@@ -45,32 +47,36 @@ public final class ScriptUtil {
      * Determine if given {@link PsiFile} is an Opencell Script
      */
     public static boolean isScript(PsiFile psiFile) {
-        if (psiFile instanceof PsiJavaFile) {
-            PsiJavaFile psiJavaFile = (PsiJavaFile) psiFile;
-            ProjectSettingsState settings = ProjectSettingsState.getInstance(psiFile.getProject());
+        return ReadAction.compute(() -> {
+            if (psiFile instanceof PsiJavaFile) {
+                PsiJavaFile psiJavaFile = (PsiJavaFile) psiFile;
+                ProjectSettingsState settings = ProjectSettingsState.getInstance(psiFile.getProject());
 
-            return Arrays.stream(psiJavaFile.getClasses()).filter(clazz -> !PsiUtil.isAbstractClass(clazz)).anyMatch(clazz -> {
-                String superClassName = clazz.getSuperClass() != null ? clazz.getSuperClass().getQualifiedName() : "";
-                return StringUtils.isNotBlank(superClassName) && settings.getScriptInterfaces().contains(superClassName);
-            });
-        }
+                return Arrays.stream(psiJavaFile.getClasses()).filter(clazz -> !PsiUtil.isAbstractClass(clazz)).anyMatch(clazz -> {
+                    String superClassName = clazz.getSuperClass() != null ? clazz.getSuperClass().getQualifiedName() : "";
+                    return StringUtils.isNotBlank(superClassName) && settings.getScriptInterfaces().contains(superClassName);
+                });
+            }
 
-        return false;
+            return false;
+        });
     }
 
     /**
      * Detect interfaces or abstract classes inherits default script interface for given {@link Project}
      */
     public static List<String> getScriptsInterfaces(Project project) {
-        var projectScope = GlobalSearchScope.allScope(project);
-        var psiFacade = JavaPsiFacade.getInstance(project);
-        var defaultScriptInterfaceClass = psiFacade.findClass(DEFAULT_SCRIPT_INTERFACE, projectScope);
-        var query = ClassInheritorsSearch.search(defaultScriptInterfaceClass, projectScope, true);
+        return ReadAction.compute(() -> {
+            var projectScope = GlobalSearchScope.allScope(project);
+            var psiFacade = JavaPsiFacade.getInstance(project);
+            var defaultScriptInterfaceClass = psiFacade.findClass(DEFAULT_SCRIPT_INTERFACE, projectScope);
+            var query = ClassInheritorsSearch.search(defaultScriptInterfaceClass, projectScope, true);
 
-        return query.allowParallelProcessing().findAll().stream()
-                .filter(psiClass -> psiClass.isInterface() || psiClass.hasModifier(JvmModifier.ABSTRACT))
-                .map(psiClass -> psiClass.getQualifiedName())
-                .collect(Collectors.toList());
+            return query.allowParallelProcessing().findAll().stream()
+                    .filter(psiClass -> psiClass.isInterface() || psiClass.hasModifier(JvmModifier.ABSTRACT))
+                    .map(PsiClass::getQualifiedName)
+                    .collect(Collectors.toList());
+        });
     }
 
     /**

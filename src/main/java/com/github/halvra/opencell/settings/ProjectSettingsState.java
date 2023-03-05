@@ -25,6 +25,7 @@ public class ProjectSettingsState implements PersistentStateComponent<ProjectSet
 
     private List<Environment> environments = new ArrayList<>();
     private List<String> scriptInterfaces = new ArrayList<>();
+    private boolean scriptInterfacesAutoDetected = false;
 
     public static ProjectSettingsState getInstance(Project project) {
         if (project == null) {
