@@ -7,6 +7,7 @@ import com.intellij.openapi.diagnostic.Logger;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.ContentType;
@@ -16,6 +17,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.meveo.api.dto.ScriptInstanceDto;
+import org.meveo.api.dto.response.GetScriptInstanceResponseDto;
 import org.meveo.api.dto.response.ScriptInstanceReponseDto;
 
 import java.io.IOException;
@@ -35,8 +37,17 @@ public class OpencellApiService {
         return new OpencellApiService(environment);
     }
 
+    public GetScriptInstanceResponseDto getScript(String qualifiedName) throws IOException {
+        return get("/api/rest/scriptInstance?scriptInstanceCode=" + qualifiedName, GetScriptInstanceResponseDto.class);
+    }
+
     public ScriptInstanceReponseDto createOrUpdateScript(ScriptInstanceDto scriptInstanceDto) throws IOException {
         return post("/api/rest/scriptInstance/createOrUpdate", scriptInstanceDto, ScriptInstanceReponseDto.class);
+    }
+
+    private <T> T get(String path, Class<T> returnType) throws IOException {
+        HttpGet httpGet = new HttpGet(environment.getUrl() + path);
+        return execute(httpGet, returnType);
     }
 
     private <T> T post(String path, Object body, Class<T> returnType) throws IOException {

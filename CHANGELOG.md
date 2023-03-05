@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+### Added
+- Action for compare a script with an environment (context menu or Alt+C)
+
 ## [1.2.5] - 2023-02-03
 - Support for IntelliJ 2022.3
 
