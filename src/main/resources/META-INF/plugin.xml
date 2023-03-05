@@ -13,7 +13,8 @@
                              displayName="Opencell Community Tools"
         />
         <fileDocumentManagerListener implementation="com.github.halvra.opencell.listeners.UploadToEnvironmentListener"/>
-        <notificationGroup id="OPENCELL_COMMUNITY_TOOLS" bundle="messages.OpencellBundle" key="notificationGroup" displayType="BALLOON"/>
+        <notificationGroup id="OPENCELL_COMMUNITY_TOOLS_BALLOON" bundle="messages.OpencellBundle" key="notificationGroup" displayType="BALLOON"/>
+        <notificationGroup id="OPENCELL_COMMUNITY_TOOLS_STICKY_BALLOON" bundle="messages.OpencellBundle" key="notificationGroup" displayType="STICKY_BALLOON"/>
     </extensions>
 
     <actions>
@@ -31,6 +32,13 @@
                     description="Deploy script to environment"
                     icon="Icons.OPENCELL">
                 <keyboard-shortcut first-keystroke="alt D" keymap="$default"/>
+            </action>
+            <action id="com.github.halvra.opencell.actions.CompareScriptComboBoxAction"
+                    class="com.github.halvra.opencell.actions.CompareScriptComboBoxAction"
+                    text="Compare with Environment..."
+                    description="Compare script with environment"
+                    icon="Icons.OPENCELL">
+                <keyboard-shortcut first-keystroke="alt C" keymap="$default"/>
             </action>
             <add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="CutCopyPasteGroup"/>
             <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="CutCopyPasteGroup"/>
@@ -52,4 +60,9 @@
             <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
         </group>
     </actions>
+
+    <applicationListeners>
+        <listener class="com.github.halvra.opencell.listeners.OpencellProjectManagerListener"
+                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
+    </applicationListeners>
 </idea-plugin>

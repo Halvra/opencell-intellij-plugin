@@ -5,54 +5,16 @@ import com.github.halvra.opencell.settings.model.Environment;
 import com.github.halvra.opencell.tasks.DeployScriptToEnvironmentTask;
 import com.github.halvra.opencell.utils.ScriptUtil;
 import com.intellij.analysis.problemsView.ProblemsCollector;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.actionSystem.Presentation;
+import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.openapi.project.IndexNotReadyException;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.impl.source.PsiJavaFileImpl;
-import com.intellij.ui.scale.JBUIScale;
 import icons.Icons;
 import org.jetbrains.annotations.NotNull;
 import org.meveo.api.dto.ScriptInstanceDto;
 
-import javax.swing.*;
-import java.awt.*;
-
-public class DirectDeployComboBoxAction extends EnvironmentComboBoxAction {
-    @Override
-    public void update(@NotNull AnActionEvent e) {
-        Presentation presentation = e.getPresentation();
-        PsiFile psiFile = e.getData(CommonDataKeys.PSI_FILE);
-
-        try {
-            if (!ScriptUtil.isScript(psiFile)) {
-                presentation.setEnabledAndVisible(false);
-            } else {
-                Project project = e.getData(CommonDataKeys.PROJECT);
-                presentation.setEnabled(project != null && !project.isDisposed() && project.isOpen());
-            }
-        } catch (IndexNotReadyException ignored) {
-            presentation.setEnabled(false);
-        }
-    }
-
-    @NotNull
-    @Override
-    public JComponent createCustomComponent(@NotNull final Presentation presentation, @NotNull String place) {
-        ComboBoxButton myButton = new ComboBoxButton(presentation) {
-            @Override
-            public Dimension getPreferredSize() {
-                Dimension d = super.getPreferredSize();
-                d.width = Math.max(d.width, JBUIScale.scale(75));
-                return d;
-            }
-        };
-        return createCustomComponent(myButton);
-    }
+public class DirectDeployComboBoxAction extends EnvironmentComboBoxAction implements UpdateInBackground {
 
     @Override
     protected AnAction selectAction(Project project, Environment environment) {

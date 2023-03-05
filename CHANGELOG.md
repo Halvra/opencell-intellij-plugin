@@ -4,8 +4,12 @@
 
 ## [Unreleased]
 
+### Added
+- Action for compare a script with an environment (context menu or Alt+C)
+- Auto-detection of script interfaces
+
 ## [1.2.5] - 2023-02-03
-- Support for IntelliJ 2022.3%0D%0A%0A[Unreleased]: https://github.com/Halvra/opencell-intellij-plugin/compare/v1.2.4...HEAD
+- Support for IntelliJ 2022.3
 
 ## [1.2.4]
 

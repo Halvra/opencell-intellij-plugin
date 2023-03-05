@@ -25,7 +25,7 @@ public class ProjectSettingsConfigurable implements Configurable {
 
     @Override
     public @Nullable JComponent createComponent() {
-        component = new ProjectSettingsComponent();
+        component = new ProjectSettingsComponent(this.project);
         return component.getMainPanel();
     }
 

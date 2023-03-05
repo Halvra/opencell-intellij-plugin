@@ -8,6 +8,7 @@ import com.github.halvra.opencell.utils.ScriptUtil;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
+import com.intellij.openapi.actionSystem.UpdateInBackground;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.ide.CopyPasteManager;
 import com.intellij.openapi.project.Project;
@@ -18,7 +19,7 @@ import org.meveo.api.dto.ScriptInstanceDto;
 
 import java.awt.datatransfer.StringSelection;
 
-public class GenerateScriptBodyAction extends AnAction {
+public class GenerateScriptBodyAction extends AnAction implements UpdateInBackground {
     private static final Logger LOGGER = Logger.getInstance(GenerateScriptBodyAction.class);
 
     @Override
