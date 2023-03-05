@@ -79,9 +79,7 @@ public class ProjectSettingsComponent {
                 .addComponent(this.scriptInterfacesAutoDetectButton)
                 .addComponentFillVertically(new JPanel(), 0)
                 .getPanel();
-        this.scriptInterfacesAutoDetectButton.addActionListener(actionEvent -> {
-            updateScriptInterfaces();
-        });
+        this.scriptInterfacesAutoDetectButton.addActionListener(actionEvent -> updateScriptInterfaces());
     }
 
     private TableView<Environment> initEnvironmentTable() {
