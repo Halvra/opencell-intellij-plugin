@@ -63,7 +63,7 @@ public class EnvironmentDialogWrapper extends DialogWrapper {
         nameField.setText(environment.getName());
         urlField.setText(environment.getUrl());
         usernameField.setText(environment.getUsername());
-        passwordField.setText(environment.getPassword());
+        passwordField.setPasswordIsStored(environment.hasPassword());
         preferredField.setSelected(environment.isPreferred());
     }
 
@@ -72,9 +72,9 @@ public class EnvironmentDialogWrapper extends DialogWrapper {
             this.environment = new Environment();
         }
 
-        environment.setName(nameField.getText());
+        environment.updateName(nameField.getText());
         environment.setUrl(urlField.getText());
-        environment.setAuthorization(usernameField.getText(), String.copyValueOf(passwordField.getPassword()));
+        environment.updateCredentials(usernameField.getText(), passwordField.getPassword());
         environment.setPreferred(preferredField.isSelected());
     }
 }

@@ -1,53 +1,82 @@
 package com.github.halvra.opencell.settings.model;
 
+import com.intellij.credentialStore.CredentialAttributes;
+import com.intellij.credentialStore.CredentialAttributesKt;
+import com.intellij.credentialStore.Credentials;
+import com.intellij.ide.passwordSafe.PasswordSafe;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
-import javax.xml.bind.annotation.XmlTransient;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.Objects;
 
 @Data
 public class Environment {
     private String name;
     private String url;
-    private String authorization;
-    @XmlTransient
-    private String username;
-    @XmlTransient
-    private String password;
     private boolean preferred;
 
-    public void setAuthorization(String username, String password) {
-        this.username = username;
-        this.password = password;
+    public void updateName(String name) {
+        var oldCredentials = this.name != null ? getCredentials() : null;
 
-        String decodedAuthorization = username + ":" + password;
-        this.authorization = Base64.getEncoder().encodeToString(decodedAuthorization.getBytes(StandardCharsets.UTF_8));
+        this.name = name;
+
+        // Update credentials if name is changed
+        if (!name.equalsIgnoreCase(this.name) && oldCredentials != null) {
+            PasswordSafe.getInstance().set(createCredentialAttributes(name), null);
+            PasswordSafe.getInstance().set(createCredentialAttributes(this.name), oldCredentials);
+        }
     }
 
     public String getUsername() {
-        if (username == null || username.trim().isEmpty()) {
-            decodeAuthorization();
+        var credentials = getCredentials();
+        if (credentials != null) {
+            return credentials.getUserName();
         }
-        return username;
+
+        return null;
     }
 
-    public String getPassword() {
-        if (password == null || password.trim().isEmpty()) {
-            decodeAuthorization();
+    public String getAuthorization() {
+        var credentials = getCredentials();
+        if (credentials != null) {
+            String decodedAuthorization = credentials.getPasswordAsString() + ":" + credentials.getPasswordAsString();
+            return Base64.getEncoder().encodeToString(decodedAuthorization.getBytes(StandardCharsets.UTF_8));
         }
-        return password;
+
+        return null;
     }
 
-    private void decodeAuthorization() {
-        if (this.authorization != null && !this.authorization.trim().isEmpty()) {
-            String decodedAuthorization = new String(Base64.getDecoder().decode(this.authorization));
-            if (decodedAuthorization.contains(":")) {
-                String[] userPass = decodedAuthorization.split(":");
-                this.username = userPass[0];
-                this.password = userPass[1];
-            }
+    public boolean hasPassword() {
+        var credentials = getCredentials();
+        return credentials != null && StringUtils.isNotBlank(credentials.getPasswordAsString());
+    }
+
+    private Credentials getCredentials() {
+        var credentialAttributes = createCredentialAttributes(this.name);
+        return PasswordSafe.getInstance().get(credentialAttributes);
+    }
+
+    public void updateCredentials(String username, char[] password) {
+        var credentialAttributes = createCredentialAttributes(this.name);
+        var oldCredentials = getCredentials();
+        Credentials newCredentials;
+        if (oldCredentials != null) {
+            newCredentials = new Credentials(username, password.length > 0 ? String.valueOf(password) : oldCredentials.getPasswordAsString());
+        } else {
+            newCredentials = new Credentials(username, password);
         }
+        PasswordSafe.getInstance().set(credentialAttributes, newCredentials);
+    }
+
+    public void removeCredentials() {
+        var credentialAttributes = createCredentialAttributes(this.name);
+        PasswordSafe.getInstance().set(credentialAttributes, null);
+    }
+
+    private static CredentialAttributes createCredentialAttributes(String name) {
+        return new CredentialAttributes(
+                CredentialAttributesKt.generateServiceName("Opencell Community Tools Environment", name)
+        );
     }
 }

@@ -43,9 +43,12 @@ public class ProjectSettingsComponent {
                         environmentTable.updateUI();
                     }
                 }).setRemoveAction(action -> {
-                    environmentTable.getListTableModel().removeRow(environmentTable.getSelectedRow());
-                    updatePreferredEnvironment(null);
-                    environmentTable.updateUI();
+                    if (environmentTable.getSelectedObject() != null) {
+                        environmentTable.getSelectedObject().removeCredentials();
+                        environmentTable.getListTableModel().removeRow(environmentTable.getSelectedRow());
+                        updatePreferredEnvironment(null);
+                        environmentTable.updateUI();
+                    }
                 }).setEditAction(action -> {
                     EnvironmentDialogWrapper dialog = new EnvironmentDialogWrapper(environmentTable.getSelectedObject(), environmentTable.getListTableModel().getRowCount() == 1);
                     if (dialog.showAndGet()) {
