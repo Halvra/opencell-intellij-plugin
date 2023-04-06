@@ -5,6 +5,7 @@
 ## [Unreleased]
 
 ### Added
+- Improve Opencell script detection by performing deep search of ScriptInterface on supers
 - Action for compare a script with an environment (context menu or Alt+C)
 - Auto-detection of script interfaces
 
