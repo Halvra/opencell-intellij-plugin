@@ -1,7 +1,6 @@
 package com.github.halvra.opencell.utils;
 
 import com.github.halvra.opencell.settings.ProjectSettingsState;
-import com.intellij.lang.jvm.JvmModifier;
 import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.io.FileUtil;
@@ -71,10 +70,10 @@ public final class ScriptUtil {
             var defaultScriptInterfaceClass = psiFacade.findClass(DEFAULT_SCRIPT_INTERFACE, projectScope);
 
             if (defaultScriptInterfaceClass != null) {
-                var query = ClassInheritorsSearch.search(defaultScriptInterfaceClass, projectScope, true)
-                        .filtering(psiClass -> psiClass.isInterface());
+                var query = ClassInheritorsSearch.search(defaultScriptInterfaceClass, projectScope, true);
 
-                return query.allowParallelProcessing().findAll().stream()
+                return query.findAll().stream()
+                        .filter(PsiClass::isInterface)
                         .map(PsiClass::getQualifiedName)
                         .collect(Collectors.toList());
             }

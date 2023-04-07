@@ -5,9 +5,15 @@
 ## [Unreleased]
 
 ### Added
-- Improve Opencell script detection by performing deep search of ScriptInterface on supers
 - Action for compare a script with an environment (context menu or Alt+C)
-- Auto-detection of script interfaces
+- Auto-detection of script interfaces (on first project opening or directly in settings)
+- Input validation on script interface and environment dialogs
+
+### Changed
+- Improved Opencell script detection by performing deep search of ScriptInterface on supers
+
+### Security
+- Use `PasswordSafe` for Environment credentials storing instead of plugin settings file (you need to re-enter it)
 
 ## [1.2.5] - 2023-02-03
 - Support for IntelliJ 2022.3

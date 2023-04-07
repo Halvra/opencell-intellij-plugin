@@ -6,6 +6,7 @@ import com.github.halvra.opencell.settings.dialog.ScriptInterfaceDialogWrapper;
 import com.github.halvra.opencell.settings.model.Environment;
 import com.github.halvra.opencell.utils.ScriptUtil;
 import com.intellij.openapi.actionSystem.ActionToolbarPosition;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.BooleanTableCellRenderer;
 import com.intellij.ui.CollectionListModel;
@@ -92,12 +93,18 @@ public class ProjectSettingsComponent {
     }
 
     private void updateScriptInterfaces() {
-        var scriptInterfacesModel = ((CollectionListModel<String>) scriptInterfacesList.getModel());
-        var detectedScriptInterfaces = ScriptUtil.getScriptsInterfaces(project);
-        detectedScriptInterfaces.forEach(scriptInterface -> {
-            if (!scriptInterfacesModel.contains(scriptInterface)) {
-                scriptInterfacesModel.add(scriptInterface);
-            }
+        ApplicationManager.getApplication().executeOnPooledThread(() -> {
+            scriptInterfacesAutoDetectButton.setEnabled(false);
+            scriptInterfacesList.setPaintBusy(true);
+            var scriptInterfacesModel = ((CollectionListModel<String>) scriptInterfacesList.getModel());
+            var detectedScriptInterfaces = ScriptUtil.getScriptsInterfaces(project);
+            detectedScriptInterfaces.forEach(scriptInterface -> {
+                if (!scriptInterfacesModel.contains(scriptInterface)) {
+                    scriptInterfacesModel.add(scriptInterface);
+                }
+            });
+            scriptInterfacesList.setPaintBusy(false);
+            scriptInterfacesAutoDetectButton.setEnabled(true);
         });
     }
 

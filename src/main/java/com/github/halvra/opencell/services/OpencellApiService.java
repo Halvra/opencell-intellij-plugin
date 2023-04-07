@@ -3,7 +3,6 @@ package com.github.halvra.opencell.services;
 import com.github.halvra.opencell.settings.model.Environment;
 import com.github.halvra.opencell.utils.HttpUtil;
 import com.google.gson.Gson;
-import com.intellij.openapi.diagnostic.Logger;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.ResponseHandler;
@@ -23,8 +22,6 @@ import org.meveo.api.dto.response.ScriptInstanceReponseDto;
 import java.io.IOException;
 
 public class OpencellApiService {
-    private static final Logger LOGGER = Logger.getInstance(OpencellApiService.class);
-
     private final Gson gson;
     private final Environment environment;
 
