@@ -19,13 +19,13 @@ public class Environment {
     public void updateName(String name) {
         var oldCredentials = this.name != null ? getCredentials() : null;
 
-        this.name = name;
-
         // Update credentials if name is changed
         if (!name.equalsIgnoreCase(this.name) && oldCredentials != null) {
-            PasswordSafe.getInstance().set(createCredentialAttributes(name), null);
-            PasswordSafe.getInstance().set(createCredentialAttributes(this.name), oldCredentials);
+            PasswordSafe.getInstance().set(createCredentialAttributes(this.name), null);
+            PasswordSafe.getInstance().set(createCredentialAttributes(name), oldCredentials);
         }
+
+        this.name = name;
     }
 
     public String getUsername() {
@@ -40,7 +40,7 @@ public class Environment {
     public String getAuthorization() {
         var credentials = getCredentials();
         if (credentials != null) {
-            String decodedAuthorization = credentials.getPasswordAsString() + ":" + credentials.getPasswordAsString();
+            String decodedAuthorization = credentials.getUserName() + ":" + credentials.getPasswordAsString();
             return Base64.getEncoder().encodeToString(decodedAuthorization.getBytes(StandardCharsets.UTF_8));
         }
 
