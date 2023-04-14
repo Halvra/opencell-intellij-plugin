@@ -1,7 +1,6 @@
 package com.github.halvra.opencell.utils;
 
 import com.github.halvra.opencell.settings.ProjectSettingsState;
-import com.intellij.lang.jvm.JvmModifier;
 import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.io.FileUtil;
@@ -15,9 +14,9 @@ import com.intellij.psi.search.searches.ClassInheritorsSearch;
 import com.intellij.psi.util.PsiUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.meveo.api.dto.ScriptInstanceDto;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,12 +49,11 @@ public final class ScriptUtil {
         return ReadAction.compute(() -> {
             if (psiFile instanceof PsiJavaFile) {
                 PsiJavaFile psiJavaFile = (PsiJavaFile) psiFile;
-                ProjectSettingsState settings = ProjectSettingsState.getInstance(psiFile.getProject());
 
-                return Arrays.stream(psiJavaFile.getClasses()).filter(clazz -> !PsiUtil.isAbstractClass(clazz)).anyMatch(clazz -> {
-                    String superClassName = clazz.getSuperClass() != null ? clazz.getSuperClass().getQualifiedName() : "";
-                    return StringUtils.isNotBlank(superClassName) && settings.getScriptInterfaces().contains(superClassName);
-                });
+                return Arrays.stream(psiJavaFile.getClasses())
+                        .filter(clazz -> !PsiUtil.isAbstractClass(clazz) && !clazz.isInterface())
+                        .anyMatch(clazz -> containsScriptInterface(clazz)
+                                || Arrays.stream(clazz.getSupers()).anyMatch(ScriptUtil::containsScriptInterface));
             }
 
             return false;
@@ -63,20 +61,39 @@ public final class ScriptUtil {
     }
 
     /**
-     * Detect interfaces or abstract classes inherits default script interface for given {@link Project}
+     * Detect interfaces inherits default script interface for given {@link Project}
      */
     public static List<String> getScriptsInterfaces(Project project) {
         return ReadAction.compute(() -> {
             var projectScope = GlobalSearchScope.allScope(project);
             var psiFacade = JavaPsiFacade.getInstance(project);
             var defaultScriptInterfaceClass = psiFacade.findClass(DEFAULT_SCRIPT_INTERFACE, projectScope);
-            var query = ClassInheritorsSearch.search(defaultScriptInterfaceClass, projectScope, true);
 
-            return query.allowParallelProcessing().findAll().stream()
-                    .filter(psiClass -> psiClass.isInterface() || psiClass.hasModifier(JvmModifier.ABSTRACT))
-                    .map(PsiClass::getQualifiedName)
-                    .collect(Collectors.toList());
+            if (defaultScriptInterfaceClass != null) {
+                var query = ClassInheritorsSearch.search(defaultScriptInterfaceClass, projectScope, true);
+
+                return query.findAll().stream()
+                        .filter(PsiClass::isInterface)
+                        .map(PsiClass::getQualifiedName)
+                        .collect(Collectors.toList());
+            }
+
+            return new ArrayList<>();
         });
+    }
+
+    /**
+     * Check if given PsiClass supers contains a script interface
+     * Perform a deep search
+     *
+     * @param psiClass the psiClass
+     * @return true if matched, false otherwise
+     */
+    private static boolean containsScriptInterface(PsiClass psiClass) {
+        ProjectSettingsState settings = ProjectSettingsState.getInstance(psiClass.getProject());
+        return Arrays.stream(psiClass.getSupers())
+                .anyMatch(psiClassSuper -> settings.getScriptInterfaces().contains(psiClassSuper.getQualifiedName()))
+                || Arrays.stream(psiClass.getSupers()).anyMatch(ScriptUtil::containsScriptInterface);
     }
 
     /**
