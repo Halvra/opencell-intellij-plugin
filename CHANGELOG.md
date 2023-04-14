@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [1.2.6] - 2023-04-14
+
 ### Added
 - Action for compare a script with an environment (context menu or Alt+C)
 - Auto-detection of script interfaces (on first project opening or directly in settings)
@@ -79,7 +81,8 @@
 - Action: generate Script JSON body and copy it to clipboard (useful for your postman collections)
 - Task: automatically upload scripts to your preferred instance
 
-[Unreleased]: https://github.com/Halvra/opencell-intellij-plugin/compare/v1.2.5...HEAD
+[Unreleased]: https://github.com/Halvra/opencell-intellij-plugin/compare/v1.2.6...HEAD
+[1.2.6]: https://github.com/Halvra/opencell-intellij-plugin/compare/v1.2.5...v1.2.6
 [1.2.5]: https://github.com/Halvra/opencell-intellij-plugin/compare/v1.2.4...v1.2.5
 [1.2.4]: https://github.com/Halvra/opencell-intellij-plugin/compare/v1.2.3...v1.2.4
 [1.2.3]: https://github.com/Halvra/opencell-intellij-plugin/compare/v1.2.2...v1.2.3
