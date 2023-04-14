@@ -1,0 +1,29 @@
+[versions]
+# libraries
+annotations = "24.0.1"
+lombok = "1.18.26"
+opencell = "9.5.2"
+
+# plugins
+dokka = "1.8.10"
+kotlin = "1.8.10"
+changelog = "2.0.0"
+gradleIntelliJPlugin = "1.13.3"
+qodana = "0.1.13"
+kover = "0.6.1"
+sonarqube = "3.5.0.2730"
+
+[libraries]
+annotations = { group = "org.jetbrains", name = "annotations", version.ref = "annotations" }
+lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
+opencellApiDto = { group = "com.opencellsoft", name = "opencell-api-dto", version.ref = "opencell" }
+opencellModel = { group = "com.opencellsoft", name = "opencell-model", version.ref = "opencell" }
+
+[plugins]
+changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+gradleIntelliJPlugin = { id = "org.jetbrains.intellij", version.ref = "gradleIntelliJPlugin" }
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+qodana = { id = "org.jetbrains.qodana", version.ref = "qodana" }
+sonarqube = { id = "org.sonarqube", version.ref = "sonarqube" }
