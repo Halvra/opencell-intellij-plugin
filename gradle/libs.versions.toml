@@ -1,7 +1,7 @@
 [versions]
 # libraries
 annotations = "24.0.1"
-lombok = "1.18.26"
+lombok = "1.18.28"
 opencell = "9.5.2"
 
 # plugins
