@@ -13,7 +13,6 @@ import com.intellij.psi.PsiFile;
 import com.intellij.ui.components.panels.NonOpaquePanel;
 import com.intellij.ui.scale.JBUIScale;
 import com.intellij.util.ui.JBUI;
-import com.intellij.util.ui.UIUtil;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -60,8 +59,7 @@ public abstract class EnvironmentComboBoxAction extends ComboBoxAction implement
     @NotNull
     protected JComponent createCustomComponent(ComboBoxButton button) {
         NonOpaquePanel panel = new NonOpaquePanel(new BorderLayout());
-        Border border = UIUtil.isUnderDefaultMacTheme() ?
-                JBUI.Borders.empty(0, 2) : JBUI.Borders.empty(0, 5, 0, 4);
+        Border border = JBUI.Borders.empty(0, 5, 0, 4);
 
         panel.setBorder(border);
         panel.add(button);
@@ -69,7 +67,7 @@ public abstract class EnvironmentComboBoxAction extends ComboBoxAction implement
     }
 
     @Override
-    protected @NotNull DefaultActionGroup createPopupActionGroup(JComponent button) {
+    protected @NotNull DefaultActionGroup createPopupActionGroup(@NotNull JComponent button, @NotNull DataContext context) {
         final DefaultActionGroup allActionsGroup = new DefaultActionGroup();
         final Project project = CommonDataKeys.PROJECT.getData(DataManager.getInstance().getDataContext(button));
         if (project == null) {

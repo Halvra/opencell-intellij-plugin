@@ -106,4 +106,7 @@ public class SelectEnvironmentComboBoxAction extends EnvironmentComboBoxAction {
         }));
     }
 
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
+    }
 }

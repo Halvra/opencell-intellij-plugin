@@ -39,7 +39,7 @@ public class UploadToEnvironmentListener implements FileDocumentManagerListener 
         }
 
         PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
-        if (ProblemsCollector.getInstance(project).getFileProblemCount(file) == 0 && ScriptUtil.isScript(psiFile)) {
+        if (psiFile != null && ProblemsCollector.getInstance(project).getFileProblemCount(file) == 0 && ScriptUtil.isScript(psiFile)) {
             ScriptInstanceDto scriptInstance = ScriptUtil.getScriptInstanceFromPsiJavaFile((PsiJavaFileImpl) psiFile);
             Environment environment = ProjectSettingsState.getInstance(project).getPreferredEnvironment();
 

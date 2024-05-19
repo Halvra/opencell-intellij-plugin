@@ -5,12 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.halvra.opencell.OpencellBundle;
 import com.github.halvra.opencell.OpencellNotifier;
 import com.github.halvra.opencell.utils.ScriptUtil;
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.actionSystem.UpdateInBackground;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.ide.CopyPasteManager;
+import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.impl.source.PsiJavaFileImpl;
@@ -19,7 +20,7 @@ import org.meveo.api.dto.ScriptInstanceDto;
 
 import java.awt.datatransfer.StringSelection;
 
-public class GenerateScriptBodyAction extends AnAction implements UpdateInBackground {
+public class GenerateScriptBodyAction extends AnAction implements DumbAware {
     private static final Logger LOGGER = Logger.getInstance(GenerateScriptBodyAction.class);
 
     @Override
@@ -33,8 +34,7 @@ public class GenerateScriptBodyAction extends AnAction implements UpdateInBackgr
         PsiFile psiFile = e.getData(CommonDataKeys.PSI_FILE);
         Project project = e.getProject();
 
-        if (psiFile instanceof PsiJavaFileImpl) {
-            PsiJavaFileImpl psiJavaFile = (PsiJavaFileImpl) psiFile;
+        if (psiFile instanceof PsiJavaFileImpl psiJavaFile) {
             ScriptInstanceDto scriptInstanceDto = ScriptUtil.getScriptInstanceFromPsiJavaFile(psiJavaFile);
 
             ObjectMapper objectMapper = new ObjectMapper();
@@ -47,5 +47,9 @@ public class GenerateScriptBodyAction extends AnAction implements UpdateInBackgr
                 OpencellNotifier.notifyError(project, OpencellBundle.message("json.parse.error"));
             }
         }
+    }
+
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 }

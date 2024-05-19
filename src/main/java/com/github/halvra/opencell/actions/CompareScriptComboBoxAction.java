@@ -13,16 +13,18 @@ import com.intellij.diff.actions.impl.MutableDiffRequestChain;
 import com.intellij.diff.chains.DiffRequestChain;
 import com.intellij.diff.contents.DiffContent;
 import com.intellij.ide.highlighter.JavaClassFileType;
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.actionSystem.UpdateInBackground;
 import com.intellij.openapi.progress.ProgressManager;
+import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiJavaFile;
+import org.jetbrains.annotations.NotNull;
 
-public class CompareScriptComboBoxAction extends EnvironmentComboBoxAction implements UpdateInBackground {
+public class CompareScriptComboBoxAction extends EnvironmentComboBoxAction implements DumbAware {
     @Override
     protected AnAction selectAction(Project project, Environment environment) {
         return new SelectEnvironmentAction(project, environment, (anActionEvent, selectEnvironmentAction) -> {
@@ -55,5 +57,9 @@ public class CompareScriptComboBoxAction extends EnvironmentComboBoxAction imple
         chain.setTitle2(environment.getName());
 
         return chain;
+    }
+
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 }

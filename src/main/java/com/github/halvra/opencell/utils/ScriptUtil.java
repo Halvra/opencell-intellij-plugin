@@ -47,9 +47,7 @@ public final class ScriptUtil {
      */
     public static boolean isScript(PsiFile psiFile) {
         return ReadAction.compute(() -> {
-            if (psiFile instanceof PsiJavaFile) {
-                PsiJavaFile psiJavaFile = (PsiJavaFile) psiFile;
-
+            if (psiFile instanceof PsiJavaFile psiJavaFile) {
                 return Arrays.stream(psiJavaFile.getClasses())
                         .filter(clazz -> !PsiUtil.isAbstractClass(clazz) && !clazz.isInterface())
                         .anyMatch(clazz -> containsScriptInterface(clazz)
