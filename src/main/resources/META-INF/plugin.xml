@@ -58,6 +58,7 @@
                     description="Auto deploy to selected Opencell environment">
             </action>
             <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
+            <add-to-group group-id="RunToolbarMainActionGroup" anchor="last"/>
         </group>
     </actions>
 

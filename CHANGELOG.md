@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+### Fixed
+- Script actions not displayed on IntelliJ "New UI" toolbar
+
 ## [1.2.6] - 2023-04-14
 
 ### Added
