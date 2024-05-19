@@ -3,7 +3,7 @@
 ![Build](https://github.com/Halvra/opencell-intellij-plugin/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/15904.svg)](https://plugins.jetbrains.com/plugin/15904)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/15904.svg)](https://plugins.jetbrains.com/plugin/15904)
-[![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=opencell-intellij-plugin&metric=alert_status)](https://sonarcloud.io/dashboard?id=opencell-intellij-plugin)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Halvra_opencell-intellij-plugin&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Halvra_opencell-intellij-plugin)
 
 <!-- Plugin description -->
 This plugin adds to your IntelliJ IDE many features to simplify development with [Opencell](https://opencellsoft.com/) :
@@ -14,10 +14,10 @@ This plugin adds to your IntelliJ IDE many features to simplify development with
 
 ## Installation
 
-- Using IDE built-in plugin system:
+- Using the IDE built-in plugin system:
   
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "opencell-intellij-plugin"</kbd> >
-  <kbd>Install Plugin</kbd>
+  <kbd>Install</kbd>
   
 - Manually:
 
@@ -26,6 +26,6 @@ This plugin adds to your IntelliJ IDE many features to simplify development with
 
 
 ---
-Plugin based on the [IntelliJ Platform Plugin Template][template] version 1.6.0.
+Plugin based on the [IntelliJ Platform Plugin Template][template] version 1.13.0.
 
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template
