@@ -11,7 +11,6 @@ plugins {
     alias(libs.plugins.changelog) // Gradle Changelog Plugin
     alias(libs.plugins.qodana) // Gradle Qodana Plugin
     alias(libs.plugins.kover) // Gradle Kover Plugin
-    alias(libs.plugins.sonarqube) // SonarQube Plugin
 }
 
 group = properties("pluginGroup").get()
@@ -67,14 +66,6 @@ koverReport {
         xml {
             onCheck = true
         }
-    }
-}
-
-sonarqube {
-    properties {
-        property("sonar.projectKey", "opencell-intellij-plugin")
-        property("sonar.organization", "halvra")
-        property("sonar.host.url", "https://sonarcloud.io")
     }
 }
 

@@ -10,7 +10,6 @@ changelog = "2.2.0"
 gradleIntelliJPlugin = "1.17.2"
 qodana = "2023.3.1"
 kover = "0.7.6"
-sonarqube = "5.0.0.4638"
 
 [libraries]
 annotations = { group = "org.jetbrains", name = "annotations", version.ref = "annotations" }
@@ -24,4 +23,3 @@ gradleIntelliJPlugin = { id = "org.jetbrains.intellij", version.ref = "gradleInt
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 qodana = { id = "org.jetbrains.qodana", version.ref = "qodana" }
-sonarqube = { id = "org.sonarqube", version.ref = "sonarqube" }
