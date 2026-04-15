@@ -8,12 +8,13 @@ import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBPasswordField;
 import com.intellij.ui.components.JBTextField;
 import com.intellij.util.ui.FormBuilder;
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.net.URL;
+import java.net.URI;
 import java.util.List;
 
 public class EnvironmentDialogWrapper extends DialogWrapper {
@@ -23,6 +24,7 @@ public class EnvironmentDialogWrapper extends DialogWrapper {
     private final JBPasswordField passwordField = new JBPasswordField();
     private final JBCheckBox preferredField = new JBCheckBox(OpencellBundle.message("settings.environment.preferred"));
 
+    @Getter
     private Environment environment;
 
     public EnvironmentDialogWrapper(boolean first) {
@@ -39,10 +41,6 @@ public class EnvironmentDialogWrapper extends DialogWrapper {
 
         this.environment = environment;
         fillForm(environment);
-    }
-
-    public Environment getEnvironment() {
-        return environment;
     }
 
     @Override
@@ -108,8 +106,7 @@ public class EnvironmentDialogWrapper extends DialogWrapper {
 
     private boolean isValidURL(String urlString) {
         try {
-            URL url = new URL(urlString);
-            url.toURI();
+            new URI(urlString);
             return true;
         } catch (Exception e) {
             return false;
