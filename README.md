@@ -15,10 +15,17 @@ This plugin adds to your IntelliJ IDE many features to simplify development with
 ## Installation
 
 - Using the IDE built-in plugin system:
-  
+
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "opencell-intellij-plugin"</kbd> >
   <kbd>Install</kbd>
-  
+
+- Using JetBrains Marketplace:
+
+  Go to [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/15904) and install it by clicking the <kbd>Install to ...</kbd> button in case your IDE is running.
+
+  You can also download the [latest release](https://plugins.jetbrains.com/plugin/15904/versions) from JetBrains Marketplace and install it manually using
+  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
+
 - Manually:
 
   Download the [latest release](https://github.com/Halvra/opencell-intellij-plugin/releases/latest) and install it manually using
@@ -26,6 +33,6 @@ This plugin adds to your IntelliJ IDE many features to simplify development with
 
 
 ---
-Plugin based on the [IntelliJ Platform Plugin Template][template] version 1.13.0.
+Plugin based on the [IntelliJ Platform Plugin Template][template] version 2.4.1.
 
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template

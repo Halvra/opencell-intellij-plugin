@@ -1,25 +1,27 @@
 [versions]
 # libraries
-annotations = "24.1.0"
-lombok = "1.18.26"
+junit = "4.13.2"
+opentest4j = "1.3.0"
+lombok = "1.18.44"
 opencell = "9.5.2"
 
 # plugins
-kotlin = "1.9.23"
-changelog = "2.2.0"
-gradleIntelliJPlugin = "1.17.2"
-qodana = "2023.3.1"
-kover = "0.7.6"
+changelog = "2.5.0"
+intelliJPlatform = "2.13.1"
+kotlin = "2.3.20"
+kover = "0.9.7"
+qodana = "2025.3.2"
 
 [libraries]
-annotations = { group = "org.jetbrains", name = "annotations", version.ref = "annotations" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+opentest4j = { group = "org.opentest4j", name = "opentest4j", version.ref = "opentest4j" }
 lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
 opencellApiDto = { group = "com.opencellsoft", name = "opencell-api-dto", version.ref = "opencell" }
 opencellModel = { group = "com.opencellsoft", name = "opencell-model", version.ref = "opencell" }
 
 [plugins]
 changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }
-gradleIntelliJPlugin = { id = "org.jetbrains.intellij", version.ref = "gradleIntelliJPlugin" }
+intelliJPlatform = { id = "org.jetbrains.intellij.platform", version.ref = "intelliJPlatform" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 qodana = { id = "org.jetbrains.qodana", version.ref = "qodana" }

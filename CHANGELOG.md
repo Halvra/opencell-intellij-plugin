@@ -1,11 +1,15 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
-# Opencell Community Tools - IntelliJ Plugin Changelog
+# Opencell Community Tools – IntelliJ Plugin Changelog
 
 ## [Unreleased]
 
 ### Fixed
-- Script actions not displayed on IntelliJ "New UI" toolbar
+- Script actions are not displayed on the IntelliJ "New UI" toolbar
+
+### Misc
+- Updated to the latest IntelliJ Platform Plugin Template version (2.4.1)
+- Updated code to remove deprecated methods
 
 ## [1.2.6] - 2023-04-14
 
